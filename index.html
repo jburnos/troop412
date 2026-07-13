@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troop 412 & Troop 6412 | Olathe, KS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --logo-blue: #4ec3e0; /* Exact sky blue from patch logo */
+            --logo-red: #a6192e;  /* Deep crimson red from logo text */
+            --dark-banner: #8c101c; /* Darker red matching the notification alert */
+            --text-dark: #222222;
+            --bg-light: #f4f9fb;
+            --border-blue: #bce4ee;
+            --footer-dark: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.5;
+            background-color: #ffffff;
+        }
+
+        h1, h2, h3, .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        /* --- HEADER NAVIGATION --- */
+        header {
+            background-color: var(--logo-blue);
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #ffffff;
+        }
+
+        /* Responsive image styling matching the layout scale */
+        .header-logo {
+            height: 75px;
+            width: auto;
+            display: block;
+            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.15));
+        }
+
+        .logo-text h2 {
+            font-size: 1.4rem;
+            line-height: 1.2;
+        }
+        .logo-text p {
+            font-size: 0.95rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: opacity 0.2s;
+        }
+
+        nav ul li a:hover {
+            opacity: 0.8;
+        }
+
+        .btn-join-header {
+            background-color: var(--logo-red);
+            padding: 8px 16px;
+            border-radius: 4px;
+        }
+
+        .btn-login-header {
+            border: 2px solid #ffffff;
+            padding: 6px 14px;
+            border-radius: 4px;
+        }
+
+        /* --- NEW MEMBER ALERT RIBBON --- */
+        .alert-ribbon {
+            background-color: var(--dark-banner);
+            color: #ffffff;
+            text-align: center;
+            padding: 12px 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            background: linear-gradient(rgba(78, 195, 224, 0.85), rgba(78, 195, 224, 0.85)), url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            padding: 60px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .hero-left {
+            max-width: 55%;
+            color: #ffffff;
+        }
+
+        .hero-left h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-left p {
+            font-size: 1.15rem;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        .btn-hero-cta {
+            background-color: var(--logo-red);
+            color: #ffffff;
+            padding: 12px 24px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 4px;
+            text-transform: uppercase;
+            display: inline-block;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+        }
+
+        .special-events-panel {
+            background-color: #ffffff;
+            width: 340px;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .special-events-header {
+            background-color: #f0f0f0;
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #555555;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .special-event-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .special-event-item:last-child {
+            border-bottom: none;
+        }
+
+        .special-event-date {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .special-event-title {
+            color: var(--text-dark);
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        /* --- MAIN SPLIT CONTAINER --- */
+        .main-container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+        }
+
+        .column-title {
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+        }
+
+        .events-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .event-entry {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .event-badge {
+            background-color: var(--logo-blue);
+            color: #ffffff;
+            min-width: 80px;
+            padding: 10px;
+            border-radius: 6px;
+            text-align: center;
+            border-left: 4px solid var(--logo-red);
+        }
+
+        .badge-day {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .badge-month {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .badge-number {
+            font-size: 1.6rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .event-info h3 {
+            font-size: 1.2rem;
+            color: var(--logo-red);
+            text-transform: uppercase;
+        }
+
+        .event-info h3.t6412 {
+            color: var(--logo-blue);
+        }
+
+        .event-time-loc {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #444444;
+            margin: 2px 0 6px 0;
+        }
+
+        .event-desc {
+            font-size: 0.95rem;
+            color: #555555;
+        }
+
+        .view-calendar-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--logo-blue);
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-bottom: 2px solid var(--logo-blue);
+            font-size: 0.9rem;
+        }
+
+        .info-cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .info-box {
+            border: 2px solid var(--border-blue);
+            border-radius: 4px;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .info-box h3 {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            font-size: 0.95rem;
+            color: #555555;
+        }
+
+        .member-portal-box {
+            background-color: var(--bg-light);
+            border: 1px solid var(--border-blue);
+            border-radius: 4px;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .member-portal-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .member-portal-box p {
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .member-portal-box a {
+            color: var(--logo-blue);
+        }
+
+        .btn-portal-submit {
+            background-color: var(--logo-red);
+            color: #ffffff;
+            padding: 10px 24px;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        footer {
+            background-color: var(--footer-dark);
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        .legal-text {
+            max-width: 900px;
+            margin: 25px auto 0 auto;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            opacity: 0.5;
+        }
+
+        @media (max-width: 992px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 40px 20px;
+            }
+            .hero-left {
+                max-width: 100%;
+            }
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation Section -->
+    <header>
+        <div class="header-brand">
+            <!-- Linked patch logo pointing to local image file -->
+            <img src="logo.png" alt="Troop 412 & 6412 Logo" class="header-logo">
+            <div class="logo-text">
+                <h2>Troop 412 & Troop 6412</h2>
+                <p>Olathe, KS | Scouting Adventure</p>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#join" class="btn-join-header">Join Troop</a></li>
+                <li><a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" target="_blank">Calendar</a></li>
+                <li><a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" class="btn-login-header" target="_blank">Member Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Crimson Top Alert Bar -->
+    <div class="alert-ribbon">
+        ⛺ <strong>NEW MEMBER NIGHT!</strong> Open House for both Troops, Oct 25th. See Calendar for details. 📢
+    </div>
+
+    <!-- Sky Blue Hero Section with Right Overlay Card -->
+    <section class="hero">
+        <div class="hero-left">
+            <h1>Adventure. Leadership. Character.</h1>
+            <p>Welcome to Troops 412 & 6412! We build confident, capable leaders in Olathe, KS, with an active, youth-led outdoor program.</p>
+            <a href="#join" class="btn-hero-cta">Learn About Joining</a>
+        </div>
+        
+        <div class="special-events-panel">
+            <div class="special-events-header">Special Events</div>
+            <div class="special-event-item">
+                <div class="special-event-date">OCT 25</div>
+                <div class="special-event-title">Joint Troop Open House</div>
+            </div>
+            <div class="special-event-item">
+                <div class="special-event-date">NOV 11</div>
+                <div class="special-event-title">Veterans Day Flag Ceremony</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Dynamic Column Layout -->
+    <main class="main-container">
+        
+        <!-- Left Side Column: Upcoming Events List -->
+        <section>
+            <h2 class="column-title">Upcoming Troop Events</h2>
+            <div class="events-layout">
+                
+                <div class="event-entry">
+                    <div class="event-badge">
+                        <div class="badge-day">Tues</div>
+                        <div class="badge-month">Aug</div>
+                        <div class="badge-number">22</div>
+                    </div>
+                    <div class="event-info">
+                        <h3>Troop 412 Meeting</h3>
+                        <div class="event-time-loc">7:00 PM | Olathe Christian Church</div>
+                        <p class="event-desc">A full description of Troop 412's next gathering, covering activities and key information. All current and prospective members are invited.</p>
+                    </div>
+                </div>
+
+                <div class="event-entry">
+                    <div class="event-badge">
+                        <div class="badge-day">Thurs</div>
+                        <div class="badge-month">Aug</div>
+                        <div class="badge-number">24</div>
+                    </div>
+                    <div class="event-info">
+                        <h3 class="t6412">Troop 6412 Meeting</h3>
+                        <div class="event-time-loc">7:00 PM | Olathe Christian Church</div>
+                        <p class="event-desc">A full description of Troop 6412's next gathering, covering activities and key information. All current and prospective members are invited.</p>
+                    </div>
+                </div>
+
+                <div class="event-entry">
+                    <div class="event-badge">
+                        <div class="badge-day">Fri-Sun</div>
+                        <div class="badge-month">Sept</div>
+                        <div class="badge-number">15</div>
+                    </div>
+                    <div class="event-info">
+                        <h3 style="color: var(--text-dark);">Fall Campout (Both Troops)</h3>
+                        <div class="event-time-loc">FRI-SUN, SEPT 15-17 | Clinton Lake</div>
+                        <p class="event-desc">Weekend outdoor trip for all scouts. Focus will be on rank advancement, outdoor cooking skills, and patrol structures.</p>
+                    </div>
+                </div>
+
+                <div class="event-entry">
+                    <div class="event-badge">
+                        <div class="badge-day">Sat</div>
+                        <div class="badge-month">Oct</div>
+                        <div class="badge-number">07</div>
+                    </div>
+                    <div class="event-info">
+                        <h3 style="color: var(--text-dark);">Service Project: Food Drive</h3>
+                        <div class="event-time-loc">SAT, OCT 7 | Local Neighborhoods</div>
+                        <p class="event-desc">Community support initiative to benefit local pantries and give back to our surrounding neighborhood community.</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" target="_blank" class="view-calendar-link">View Full Calendar</a>
+        </section>
+
+        <!-- Right Side Column: Join Cards & Roster Database Access -->
+        <section id="join">
+            <h2 class="column-title">&nbsp;</h2>
+            
+            <div class="info-cards-grid">
+                
+                <div class="info-box">
+                    <h3>How to Join Troop 412</h3>
+                    <p>Learn details about joining our program for boys. Chartered by Olathe Christian Church.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>How to Join Troop 6412</h3>
+                    <p>Learn details about joining our program for girls. Chartered by Olathe Christian Church.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>Meeting Location & Schedule</h3>
+                    <p>We meet weekly at Olathe Christian Church. Reach out to verify specific times for your age brackets.</p>
+                </div>
+
+                <div class="info-box">
+                    <h3>About Our Program</h3>
+                    <p>Our scouts program is designed to combine individual growth with team coordination up to evaluation and rank goals.</p>
+                </div>
+
+            </div>
+
+            <div class="member-portal-box">
+                <h3>Are You A Member?</h3>
+                <p>Access the full Troop Webhost database <a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" target="_blank">here</a>.</p>
+                <a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" target="_blank" class="btn-portal-submit">Log In to Troop Webhost</a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Disclaimers -->
+    <footer>
+        <p>&copy; 2026 Scouting BSA Troops 412 & 6412 - Olathe, KS.</p>
+        <p>Chartered by Olathe Christian Church.</p>
+        <div class="legal-text">
+            This website is independently operated and is not sponsored by, endorsed by, or affiliated with the Boy Scouts of America. 
+            The opinions expressed herein are those of the author alone and in no way represent the views of the Boy Scouts of America. 
+            BOY SCOUTS OF AMERICA®, the BSA Universal Emblem, and all other related marks are trademarks owned exclusively by the Boy Scouts of America.
+        </div>
+    </footer>
+
+</body>
+</html>
