@@ -3,18 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Troop 412 & Troop 6412 | Olathe, KS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <meta name="artifact-type" content="dashboard">
+    <meta name="design-style" content="handbook">
+    <title>Troop 412 &amp; Troop 6412 | Live Troop Calendar &amp; Scouting Adventure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --logo-blue: #4ec3e0; /* Exact sky blue from patch logo */
             --logo-red: #a6192e;  /* Deep crimson red from logo text */
-            --dark-banner: #8c101c; /* Darker red matching the notification alert */
+            --dark-banner: #8c101c; /* Darker red matching notification alert */
             --text-dark: #222222;
             --bg-light: #f4f9fb;
             --border-blue: #bce4ee;
             --footer-dark: #333333;
+
+            /* Design token mapping for consistency */
+            --background: #ffffff;
+            --surface-container-low: #f4f9fb;
+            --surface-container: #e8f4f8;
+            --surface-container-high: #d9ecf2;
+            --on-surface: #222222;
+            --on-surface-variant: #555555;
+            --outline: #222222;
+            --outline-variant: #bce4ee;
+
+            --primary: #a6192e;
+            --on-primary: #ffffff;
+            --primary-container: #fcedef;
+            --on-primary-container: #6e0c1b;
+
+            --tertiary: #4ec3e0;
+            --on-tertiary: #ffffff;
+            --tertiary-dark: #198ba8;
+
+            --focus-yellow: #ffdd00;
+            --focus-ring: 3px solid var(--focus-yellow);
+
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+
+            --font-headline: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+            --font-label: 'Montserrat', sans-serif;
         }
 
         * {
@@ -23,16 +57,31 @@
             padding: 0;
         }
 
-        body {
-            font-family: 'Open Sans', sans-serif;
+        html, body {
+            overflow-x: clip;
+            font-family: var(--font-body);
             color: var(--text-dark);
             line-height: 1.5;
-            background-color: #ffffff;
+            background-color: var(--background);
         }
 
-        h1, h2, h3, .logo-text {
-            font-family: 'Montserrat', sans-serif;
+        h1, h2, h3, h4, .logo-text, .font-display {
+            font-family: var(--font-headline);
             font-weight: 700;
+        }
+
+        /* --- ACCESSIBILITY --- */
+        a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+            outline: var(--focus-ring);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, ::before, ::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
 
         /* --- HEADER NAVIGATION --- */
@@ -42,106 +91,203 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
+            position: static;
             z-index: 1000;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
         }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
             color: #ffffff;
+        }
+
+        /* Scalable vector patch logo styling */
+        .header-logo-container {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
 
         .header-logo {
             height: 75px;
             width: auto;
             display: block;
-            filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.15));
+            filter: drop-shadow(0px 2px 5px rgba(0, 0, 0, 0.22));
+            transition: transform 0.2s ease;
+        }
+
+        .header-logo:hover {
+            transform: scale(1.02);
         }
 
         .logo-text h2 {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             line-height: 1.2;
+            letter-spacing: -0.01em;
         }
+
         .logo-text p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            opacity: 0.9;
+            opacity: 0.95;
+            letter-spacing: 0.02em;
         }
 
         nav ul {
             list-style: none;
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
         }
 
-        nav ul li a {
+        nav ul li a, nav ul li button {
             color: #ffffff;
             text-decoration: none;
+            font-family: var(--font-headline);
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            transition: opacity 0.2s;
+            letter-spacing: 0.03em;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.18s ease, color 0.18s ease;
         }
 
-        nav ul li a:hover {
-            opacity: 0.8;
+        nav ul li a:hover, nav ul li button:hover {
+            background-color: rgba(255, 255, 255, 0.18);
         }
 
         .btn-join-header {
-            background-color: var(--logo-red);
-            padding: 8px 16px;
-            border-radius: 4px;
+            background-color: var(--logo-red) !important;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+        .btn-join-header:hover {
+            background-color: #8c101c !important;
         }
 
         .btn-login-header {
-            border: 2px solid #ffffff;
-            padding: 6px 14px;
-            border-radius: 4px;
+            border: 2px solid #ffffff !important;
+        }
+        .btn-login-header:hover {
+            background-color: #ffffff !important;
+            color: var(--tertiary-dark) !important;
         }
 
-        /* --- TOP ALERT RIBBON --- */
+        /* --- ALERT RIBBON --- */
         .alert-ribbon {
             background-color: var(--dark-banner);
             color: #ffffff;
             text-align: center;
-            padding: 12px 20px;
+            padding: 10px 20px;
+            font-size: 0.9rem;
             font-weight: 600;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .alert-ribbon strong {
+            letter-spacing: 0.04em;
+        }
+
+        .alert-action-btn {
+            background: #ffffff;
+            color: var(--dark-banner);
+            border: none;
+            font-family: var(--font-headline);
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+        .alert-action-btn:hover {
+            background: #ffe3e6;
         }
 
         /* --- HERO SECTION --- */
         .hero {
-            background: linear-gradient(rgba(78, 195, 224, 0.85), rgba(78, 195, 224, 0.85)), url('[suspicious link removed]') no-repeat center center/cover;
-            padding: 60px 5%;
+            position: relative;
+            background: linear-gradient(135deg, rgba(55, 178, 209, 0.96) 0%, rgba(31, 140, 169, 0.94) 100%),
+                        radial-gradient(ellipse at bottom right, rgba(166, 25, 46, 0.3) 0%, transparent 70%);
+            padding: 55px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 40px;
+            overflow: hidden;
+        }
+
+        /* Pure CSS / SVG decorative outdoor backdrop silhouette */
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,120 L0,90 L60,40 L120,95 L180,30 L240,100 L320,15 L400,90 L480,35 L560,95 L640,20 L720,85 L800,25 L880,95 L960,15 L1040,85 L1120,30 L1200,90 L1200,120 Z' fill='%23ffffff' fill-opacity='0.12'/%3E%3Cpath d='M0,120 L0,105 L90,65 L180,108 L290,50 L400,110 L510,60 L620,105 L730,55 L840,108 L950,55 L1070,110 L1200,80 L1200,120 Z' fill='%23ffffff' fill-opacity='0.18'/%3E%3C/svg%3E");
+            background-size: cover;
+            background-repeat: no-repeat;
+            pointer-events: none;
+            opacity: 0.7;
         }
 
         .hero-left {
-            max-width: 55%;
+            max-width: 58%;
             color: #ffffff;
+            z-index: 1;
         }
 
         .hero-left h1 {
-            font-size: 2.4rem;
+            font-size: clamp(2rem, 3.2vw, 2.7rem);
             font-weight: 800;
-            margin-bottom: 15px;
+            margin-bottom: 14px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.02em;
+            line-height: 1.15;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
         }
 
         .hero-left p {
-            font-size: 1.15rem;
-            margin-bottom: 25px;
-            line-height: 1.4;
+            font-size: 1.1rem;
+            margin-bottom: 24px;
+            line-height: 1.5;
+            opacity: 0.95;
+            max-width: 62ch;
+        }
+
+        .hero-badges-strip {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .hero-pill {
+            background: rgba(255, 255, 255, 0.22);
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .btn-hero-cta {
@@ -149,34 +295,81 @@
             color: #ffffff;
             padding: 12px 24px;
             text-decoration: none;
+            font-family: var(--font-headline);
             font-weight: 700;
             border-radius: 4px;
             text-transform: uppercase;
             display: inline-block;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+            letter-spacing: 0.04em;
+            transition: background-color 0.18s ease, transform 0.18s ease;
+        }
+        .btn-hero-cta:hover {
+            background-color: #8c101c;
+            transform: translateY(-1px);
         }
 
+        .btn-hero-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border: 2px solid #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-family: var(--font-headline);
+            font-weight: 700;
+            border-radius: 4px;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-left: 12px;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+            transition: background-color 0.18s ease;
+        }
+        .btn-hero-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Hero Right Special Events Card */
         .special-events-panel {
             background-color: #ffffff;
-            width: 340px;
-            border-radius: 4px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 350px;
+            border-radius: 6px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
             overflow: hidden;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.6);
         }
 
         .special-events-header {
-            background-color: #f0f0f0;
-            padding: 12px 20px;
+            background-color: #f3f5f7;
+            padding: 12px 18px;
             font-size: 0.85rem;
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
-            color: #555555;
-            border-bottom: 1px solid #e0e0e0;
+            color: #444444;
+            border-bottom: 2px solid var(--border-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .special-events-header span.tag {
+            background: var(--logo-red);
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: 800;
         }
 
         .special-event-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid #f0f0f0;
+            padding: 14px 18px;
+            border-bottom: 1px solid #edf2f5;
+            transition: background-color 0.15s ease;
+            cursor: pointer;
+        }
+        .special-event-item:hover {
+            background-color: #f7fafc;
         }
 
         .special-event-item:last-child {
@@ -184,69 +377,357 @@
         }
 
         .special-event-date {
-            font-weight: 700;
-            color: var(--text-dark);
-            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--logo-red);
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
             margin-bottom: 2px;
         }
 
         .special-event-title {
             color: var(--text-dark);
-            font-weight: 800;
-            font-size: 1.1rem;
+            font-weight: 700;
+            font-size: 1rem;
             text-transform: uppercase;
-            line-height: 1.2;
+            line-height: 1.25;
         }
 
-        /* --- MAIN CONTAINER --- */
+        .special-event-sub {
+            font-size: 0.8rem;
+            color: #666666;
+            margin-top: 3px;
+        }
+
+        /* --- MAIN SPLIT CONTAINER --- */
         .main-container {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 20px;
+            max-width: 1240px;
+            margin: 40px auto;
+            padding: 0 24px;
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 50px;
+            grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+            gap: 40px;
+        }
+
+        .column-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 18px;
+            border-bottom: 3px solid var(--logo-blue);
+            padding-bottom: 8px;
         }
 
         .column-title {
-            font-size: 1.8rem;
+            font-size: 1.65rem;
             text-transform: uppercase;
             color: var(--text-dark);
-            margin-bottom: 30px;
+            letter-spacing: 0.01em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
+        /* --- GOOGLE CALENDAR DYNAMIC INTEGRATION BAR --- */
+        .gcal-sync-card {
+            background: #ffffff;
+            border: 1px solid var(--border-blue);
+            border-left: 5px solid var(--logo-blue);
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .gcal-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #eef3f6;
+        }
+
+        .gcal-status-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .gcal-status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #2e7d32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.2);
+            display: inline-block;
+        }
+
+        .gcal-status-dot.syncing {
+            background-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+            animation: pulse-dot 1.2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .gcal-feed-title {
+            font-family: var(--font-headline);
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .gcal-feed-meta {
+            font-size: 0.75rem;
+            color: #666666;
+        }
+
+        .gcal-actions-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-sync-action {
+            font-family: var(--font-headline);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid var(--border-blue);
+            background: #ffffff;
+            color: var(--text-dark);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s ease;
+        }
+        .btn-sync-action:hover {
+            background: var(--bg-light);
+            border-color: var(--logo-blue);
+            color: var(--tertiary-dark);
+        }
+
+        .btn-sync-action.primary-sync {
+            background: var(--logo-blue);
+            color: #ffffff;
+            border-color: var(--logo-blue);
+        }
+        .btn-sync-action.primary-sync:hover {
+            background: var(--tertiary-dark);
+        }
+
+        /* Filter & Search Bar */
+        .gcal-controls-row {
+            margin-top: 14px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+        }
+
+        .search-input-wrapper {
+            position: relative;
+        }
+
+        .search-input-wrapper input {
+            width: 100%;
+            padding: 8px 12px 8px 34px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            border: 1px solid #ccdbe0;
+            border-radius: 4px;
+            background: #fafcfe;
+            color: var(--text-dark);
+        }
+        .search-input-wrapper input:focus {
+            border-color: var(--logo-blue);
+            background: #ffffff;
+        }
+
+        .search-icon-svg {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #8899a6;
+            pointer-events: none;
+        }
+
+        .view-range-select {
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            padding: 8px 10px;
+            border: 1px solid #ccdbe0;
+            border-radius: 4px;
+            background: #fafcfe;
+            color: var(--text-dark);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .filter-tabs-row {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .unit-filter-pills {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: #edf5f8;
+            border: 1px solid transparent;
+            font-family: var(--font-headline);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #555555;
+            padding: 5px 11px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .filter-btn:hover {
+            background: #deeff4;
+            color: var(--text-dark);
+        }
+        .filter-btn.active {
+            background: var(--logo-blue);
+            color: #ffffff;
+            border-color: var(--logo-blue);
+        }
+
+        .filter-btn.unit-t412.active {
+            background: var(--logo-red);
+            border-color: var(--logo-red);
+        }
+        .filter-btn.unit-t6412.active {
+            background: #0288d1;
+            border-color: #0288d1;
+        }
+
+        .firm-checkbox-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #444444;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .firm-checkbox-label input {
+            cursor: pointer;
+            accent-color: var(--logo-red);
+        }
+
+        /* Category Filter Chips Bar */
+        .category-chips-bar {
+            margin-top: 10px;
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .cat-chip {
+            background: #ffffff;
+            border: 1px solid #d4e5ea;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: #556677;
+            padding: 3px 9px;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.12s ease;
+        }
+        .cat-chip:hover {
+            border-color: var(--logo-blue);
+            color: var(--text-dark);
+        }
+        .cat-chip.active {
+            background: #e8f7fa;
+            border-color: var(--logo-blue);
+            color: var(--tertiary-dark);
+            font-weight: 700;
+        }
+
+        .feed-counter-banner {
+            margin-top: 10px;
+            font-size: 0.78rem;
+            color: #667788;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* --- EVENTS LAYOUT (DYNAMICALLY POPULATED) --- */
         .events-layout {
             display: flex;
             flex-direction: column;
-            gap: 25px;
+            gap: 20px;
+            min-height: 200px;
         }
 
         .event-entry {
             display: flex;
-            gap: 20px;
+            gap: 18px;
             align-items: flex-start;
+            padding: 16px;
+            background: #ffffff;
+            border: 1px solid #e5eff2;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+        }
+
+        .event-entry:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-color: var(--border-blue);
         }
 
         .event-badge {
             background-color: var(--logo-blue);
             color: #ffffff;
-            min-width: 80px;
-            padding: 10px;
+            min-width: 82px;
+            padding: 10px 8px;
             border-radius: 6px;
             text-align: center;
             border-left: 4px solid var(--logo-red);
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-badge.t6412-badge {
+            background-color: #0288d1;
+            border-left-color: #ffb300;
         }
 
         .badge-day {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
-            font-weight: 600;
-            opacity: 0.9;
+            font-weight: 700;
+            opacity: 0.95;
+            letter-spacing: 0.05em;
         }
 
         .badge-month {
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1.05rem;
+            font-weight: 800;
             text-transform: uppercase;
             line-height: 1.1;
         }
@@ -255,122 +736,506 @@
             font-size: 1.6rem;
             font-weight: 800;
             line-height: 1;
+            margin-top: 2px;
+        }
+
+        .event-info {
+            flex-grow: 1;
+        }
+
+        .event-header-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .event-info h3 {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--logo-red);
             text-transform: uppercase;
+            line-height: 1.25;
+            letter-spacing: 0.01em;
         }
 
         .event-info h3.t6412 {
-            color: var(--logo-blue);
+            color: #0288d1;
+        }
+
+        .event-info h3.joint {
+            color: var(--text-dark);
+        }
+
+        .event-pill-row {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+
+        .pill-tag {
+            font-family: var(--font-headline);
+            font-size: 0.68rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 2px 6px;
+            border-radius: 3px;
+            letter-spacing: 0.03em;
+        }
+
+        .pill-firm {
+            background-color: var(--logo-red);
+            color: #ffffff;
+        }
+
+        .pill-unit-412 {
+            background-color: #fcedef;
+            color: var(--logo-red);
+            border: 1px solid #f2bdc6;
+        }
+
+        .pill-unit-6412 {
+            background-color: #e1f5fe;
+            color: #0277bd;
+            border: 1px solid #b3e5fc;
+        }
+
+        .pill-unit-joint {
+            background-color: #ede7f6;
+            color: #512da8;
+            border: 1px solid #d1c4e9;
+        }
+
+        .pill-category {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
         }
 
         .event-time-loc {
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 700;
-            color: #444444;
-            margin: 2px 0 6px 0;
+            color: #3b4b59;
+            margin: 4px 0 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
         }
 
         .event-desc {
-            font-size: 0.95rem;
-            color: #555555;
+            font-size: 0.92rem;
+            color: #4f5f6f;
+            line-height: 1.45;
+            margin-bottom: 10px;
         }
 
-        .view-calendar-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: var(--logo-blue);
+        .event-meta-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 8px;
+            border-top: 1px dashed #e5eff2;
+        }
+
+        .event-tags-list {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+            color: #607282;
+            font-weight: 600;
+        }
+
+        .event-tag-item {
+            background: #f4f8fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            border: 1px solid #e1ecf0;
+        }
+
+        .event-actions-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-card-action {
+            background: #ffffff;
+            border: 1px solid #ccdce2;
+            font-family: var(--font-headline);
+            font-size: 0.72rem;
             font-weight: 700;
-            text-transform: uppercase;
-            text-decoration: none;
-            border-bottom: 2px solid var(--logo-blue);
+            color: var(--text-dark);
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.12s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-card-action:hover {
+            background: var(--bg-light);
+            border-color: var(--logo-blue);
+            color: var(--tertiary-dark);
+        }
+
+        .btn-card-action.btn-details {
+            background: #f0f9fb;
+            border-color: var(--border-blue);
+            color: var(--tertiary-dark);
+        }
+        .btn-card-action.btn-details:hover {
+            background: var(--logo-blue);
+            color: #ffffff;
+        }
+
+        /* Empty state */
+        .empty-events-state {
+            text-align: center;
+            padding: 48px 20px;
+            background: #fafcfe;
+            border: 2px dashed #d5e5ea;
+            border-radius: 6px;
+            color: #607282;
+        }
+        .empty-events-state h4 {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+        .empty-events-state p {
             font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+
+        /* --- RIGHT SIDE COLUMN: JOIN & PROGRAM CARDS --- */
+        .column-join-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
         .info-cards-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 16px;
         }
 
         .info-box {
             border: 2px solid var(--border-blue);
-            border-radius: 4px;
-            padding: 20px;
+            border-radius: 6px;
+            padding: 18px 20px;
             background-color: #ffffff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            transition: border-color 0.18s ease;
+        }
+        .info-box:hover {
+            border-color: var(--logo-blue);
+        }
+
+        .info-box-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
         .info-box h3 {
             color: var(--text-dark);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             text-transform: uppercase;
-            margin-bottom: 8px;
+            letter-spacing: 0.01em;
         }
 
         .info-box p {
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             color: #555555;
+            line-height: 1.45;
         }
 
+        .info-box-highlight {
+            border-left: 5px solid var(--logo-red);
+            background: #fffdfd;
+        }
+
+        .info-box-blue {
+            border-left: 5px solid var(--logo-blue);
+            background: #fcfeff;
+        }
+
+        /* Bartle Camp Staff 2027 Challenge Box */
+        .bartle-staff-box {
+            background: linear-gradient(135deg, #fff9f5 0%, #fff2e8 100%);
+            border: 2px solid #ffccaa;
+            border-left: 6px solid #e65100;
+            border-radius: 6px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(230, 81, 0, 0.08);
+        }
+
+        .bartle-staff-box h3 {
+            color: #b73e00;
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bartle-staff-box p {
+            font-size: 0.9rem;
+            color: #5d3419;
+            margin-bottom: 12px;
+        }
+
+        .staff-perks-list {
+            list-style: none;
+            margin-bottom: 14px;
+            font-size: 0.85rem;
+            color: #4a2810;
+        }
+        .staff-perks-list li {
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-staff-pledge {
+            background-color: #d84315;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
+            font-family: var(--font-headline);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            transition: background-color 0.15s ease;
+        }
+        .btn-staff-pledge:hover {
+            background-color: #bf360c;
+        }
+
+        /* Member Portal Card */
         .member-portal-box {
             background-color: var(--bg-light);
-            border: 1px solid var(--border-blue);
-            border-radius: 4px;
-            padding: 30px 20px;
+            border: 2px solid var(--border-blue);
+            border-radius: 6px;
+            padding: 26px 20px;
             text-align: center;
-            margin-top: 25px;
         }
 
         .member-portal-box h3 {
-            font-size: 1.2rem;
-            margin-bottom: 5px;
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+            color: var(--text-dark);
         }
 
         .member-portal-box p {
-            font-size: 0.95rem;
-            margin-bottom: 20px;
-        }
-
-        .member-portal-box a {
-            color: var(--logo-blue);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            color: #556677;
         }
 
         .btn-portal-submit {
             background-color: var(--logo-red);
             color: #ffffff;
             padding: 10px 24px;
-            text-decoration: none;
+            border: none;
+            font-family: var(--font-headline);
             font-weight: 700;
             text-transform: uppercase;
             border-radius: 4px;
             display: inline-block;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            font-size: 0.85rem;
+            letter-spacing: 0.04em;
+            transition: background-color 0.15s ease;
+        }
+        .btn-portal-submit:hover {
+            background-color: #8c101c;
         }
 
+        /* --- MODAL DIALOGS --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.65);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-dialog {
+            background: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            transform: translateY(15px);
+            transition: transform 0.2s ease;
+        }
+
+        .modal-overlay.open .modal-dialog {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            background: var(--logo-blue);
+            color: #ffffff;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.15rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 4px;
+            opacity: 0.85;
+        }
+        .modal-close-btn:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 22px 24px;
+            overflow-y: auto;
+            font-size: 0.92rem;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        .modal-footer {
+            padding: 14px 20px;
+            background: #f4f8fa;
+            border-top: 1px solid #e1ebef;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-family: var(--font-headline);
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid #ccdbe0;
+            background: #ffffff;
+            color: var(--text-dark);
+        }
+
+        .modal-btn.primary {
+            background: var(--logo-red);
+            color: #ffffff;
+            border-color: var(--logo-red);
+        }
+        .modal-btn.primary:hover {
+            background: #8c101c;
+        }
+
+        .logistics-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px 16px;
+            margin: 16px 0;
+            background: #fafcfe;
+            padding: 14px;
+            border-radius: 6px;
+            border: 1px solid #e8f0f3;
+        }
+
+        .logistics-label {
+            font-weight: 700;
+            color: #556677;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+        }
+
+        .logistics-val {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.88rem;
+        }
+
+        /* Feed Parser Textarea */
+        .feed-code-area {
+            width: 100%;
+            height: 160px;
+            font-family: monospace;
+            font-size: 0.8rem;
+            padding: 10px;
+            border: 1px solid #c9dbe2;
+            border-radius: 4px;
+            background: #fdfefe;
+            margin-top: 8px;
+            resize: vertical;
+        }
+
+        /* --- FOOTER --- */
         footer {
             background-color: var(--footer-dark);
             color: #ffffff;
-            padding: 40px 20px;
+            padding: 45px 20px;
             text-align: center;
             font-size: 0.85rem;
+            margin-top: 60px;
+            border-top: 4px solid var(--logo-blue);
         }
 
         footer p {
-            margin-bottom: 10px;
-            opacity: 0.8;
+            margin-bottom: 8px;
+            opacity: 0.85;
         }
 
         .legal-text {
             max-width: 900px;
             margin: 25px auto 0 auto;
             font-size: 0.75rem;
-            line-height: 1.4;
-            opacity: 0.5;
+            line-height: 1.45;
+            opacity: 0.6;
         }
 
-        /* --- RESPONSIVE MOBILE STYLING --- */
+        /* --- RESPONSIVE MEDIA QUERIES --- */
         @media (max-width: 992px) {
             .hero {
                 flex-direction: column;
@@ -380,253 +1245,1648 @@
             .hero-left {
                 max-width: 100%;
             }
+            .hero-badges-strip {
+                justify-content: center;
+            }
             .main-container {
                 grid-template-columns: 1fr;
                 gap: 40px;
+            }
+            .special-events-panel {
+                width: 100%;
+                max-width: 480px;
             }
         }
 
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
-                gap: 15px;
+                gap: 14px;
             }
             nav ul {
                 flex-wrap: wrap;
                 justify-content: center;
+                gap: 8px;
+            }
+            .gcal-controls-row {
+                grid-template-columns: 1fr;
             }
             .event-entry {
-                flex-direction: row;
-                gap: 15px;
+                flex-direction: column;
+            }
+            .event-badge {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                border-left: none;
+                border-top: 4px solid var(--logo-red);
+            }
+            .badge-number {
+                margin-top: 0;
             }
         }
     </style>
 </head>
-<body>
+<body id="top">
 
-    <!-- Header Navigation Section -->
-    <header>
-        <div class="header-brand">
-            <img src="logo.png" alt="Troop 412 & 6412 Logo" class="header-logo">
-            <div class="logo-text">
-                <h2>Troop 412 & Troop 6412</h2>
-                <p>Olathe, KS | Scouting Adventure</p>
-            </div>
+<!-- Header Navigation Section with SVG Patch Logo alongside Logo Styling -->
+<header>
+    <div class="header-brand">
+        <!-- High-fidelity Scalable Vector Troop 412 & 6412 Patch Logo -->
+        <div class="header-logo-container" title="Troop 412 & 6412 Patch Emblem">
+            <svg class="header-logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Troop 412 and 6412 Scouting Patch Logo">
+                <defs>
+                    <radialGradient id="patchBg" cx="50%" cy="40%" r="55%">
+                        <stop offset="0%" stop-color="#5ed1ed"/>
+                        <stop offset="100%" stop-color="#34b2cf"/>
+                    </radialGradient>
+                    <linearGradient id="crimsonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#b81d34"/>
+                        <stop offset="100%" stop-color="#8c101c"/>
+                    </linearGradient>
+                    <linearGradient id="goldTrim" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#ffe28a"/>
+                        <stop offset="50%" stop-color="#d4af37"/>
+                        <stop offset="100%" stop-color="#aa8014"/>
+                    </linearGradient>
+                    <filter id="patchShadow" x="-10%" y="-10%" width="120%" height="120%">
+                        <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.3"/>
+                    </filter>
+                </defs>
+
+                <!-- Embroidered Patch Outer Border -->
+                <path d="M 50 4 C 78 4 94 15 94 45 C 94 72 65 91 50 96 C 35 91 6 72 6 45 C 6 15 22 4 50 4 Z" 
+                      fill="url(#goldTrim)" stroke="#805d0d" stroke-width="1.5" filter="url(#patchShadow)" />
+                
+                <!-- Inner Stitch Ring -->
+                <path d="M 50 7 C 75 7 90 17 90 45 C 90 69 63 87 50 92 C 37 87 10 69 10 45 C 10 17 25 7 50 7 Z" 
+                      fill="none" stroke="#ffffff" stroke-width="1" stroke-dasharray="2,2" opacity="0.8"/>
+
+                <!-- Sky Blue Patch Field -->
+                <path d="M 50 9 C 73 9 87 19 87 45 C 87 67 61 84 50 89 C 39 84 13 67 13 45 C 13 19 27 9 50 9 Z" 
+                      fill="url(#patchBg)"/>
+
+                <!-- Top Embroidered Banner Arc: Crimson -->
+                <path d="M 20 22 Q 50 14 80 22 L 78 32 Q 50 25 22 32 Z" fill="url(#crimsonGrad)" stroke="#ffffff" stroke-width="0.5"/>
+                <text x="50" y="27.5" fill="#ffffff" font-family="'Montserrat', sans-serif" font-size="7" font-weight="800" text-anchor="middle" letter-spacing="1">TROOPS</text>
+
+                <!-- Scouting Fleur-de-lis Emblem in Gold & White -->
+                <g transform="translate(50, 48) scale(0.62)">
+                    <!-- Center Petal -->
+                    <path d="M 0 -24 C -4 -12 -7 0 0 10 C 7 0 4 -12 0 -24 Z" fill="url(#goldTrim)" stroke="#ffffff" stroke-width="0.7"/>
+                    <!-- Left Petal -->
+                    <path d="M -2 -2 C -14 -12 -22 -2 -14 7 C -9 11 -4 6 -1 5 Z" fill="url(#goldTrim)" stroke="#ffffff" stroke-width="0.7"/>
+                    <!-- Right Petal -->
+                    <path d="M 2 -2 C 14 -12 22 -2 14 7 C 9 11 4 6 1 5 Z" fill="url(#goldTrim)" stroke="#ffffff" stroke-width="0.7"/>
+                    <!-- Center Ring Ribbon -->
+                    <rect x="-8" y="4" width="16" height="3" rx="1.5" fill="url(#crimsonGrad)" stroke="#ffffff" stroke-width="0.5"/>
+                    <!-- Lower Tie -->
+                    <path d="M -3 7 L 0 14 L 3 7 Z" fill="url(#goldTrim)"/>
+                </g>
+
+                <!-- Linked Troop Numbers: 412 (Boys, Red) and 6412 (Girls, Blue) -->
+                <rect x="15" y="62" width="32" height="15" rx="3" fill="url(#crimsonGrad)" stroke="#ffffff" stroke-width="0.7"/>
+                <text x="31" y="73" fill="#ffffff" font-family="'Montserrat', sans-serif" font-size="9" font-weight="800" text-anchor="middle">412</text>
+
+                <rect x="53" y="62" width="32" height="15" rx="3" fill="#0277bd" stroke="#ffffff" stroke-width="0.7"/>
+                <text x="69" y="73" fill="#ffffff" font-family="'Montserrat', sans-serif" font-size="9" font-weight="800" text-anchor="middle">6412</text>
+
+                <!-- Two White Scout Stars symbolizing the linked troops -->
+                <polygon points="25,44 26.5,48 31,48.5 27.5,51.5 28.5,56 25,53.5 21.5,56 22.5,51.5 19,48.5 23.5,48" fill="#ffffff"/>
+                <polygon points="75,44 76.5,48 81,48.5 77.5,51.5 78.5,56 75,53.5 71.5,56 72.5,51.5 69,48.5 73.5,48" fill="#ffffff"/>
+
+                <!-- Olathe, KS Bottom Ribbon -->
+                <text x="50" y="85" fill="#ffffff" font-family="'Montserrat', sans-serif" font-size="5.5" font-weight="700" text-anchor="middle" letter-spacing="1">OLATHE, KS</text>
+            </svg>
         </div>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#join" class="btn-join-header">Join Troop</a></li>
-                <li><a href="[suspicious link removed]" target="_blank">Calendar</a></li>
-                <li><a href="[suspicious link removed]" class="btn-login-header" target="_blank">Member Login</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Top Alert Ribbon -->
-    <div class="alert-ribbon">
-        ⛺ <strong>NEW MEMBER NIGHT!</strong> Open House for both Troops. See Calendar for details. 📢
+        <div class="logo-text">
+            <h2>Troop 412 &amp; Troop 6412</h2>
+            <p>Olathe, KS | Scouting Adventure</p>
+        </div>
     </div>
+    <nav>
+        <ul>
+            <li><a href="#top">Home</a></li>
+            <li><a href="#join" class="btn-join-header">Join Troop</a></li>
+            <li><a href="#calendar-section">Calendar</a></li>
+            <li><button type="button" class="btn-login-header" onclick="openLoginModal()">Member Login</button></li>
+        </ul>
+    </nav>
+</header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-left">
-            <h1>Adventure. Leadership. Character.</h1>
-            <p>Welcome to Troops 412 & 6412! We build confident, capable leaders in Olathe, KS, with an active, youth-led outdoor program.</p>
-            <a href="#join" class="btn-hero-cta">Learn About Joining</a>
+<!-- Alert Ribbon: Bartle 2027 Camp Staff Application Window & Key Deadlines -->
+<div class="alert-ribbon">
+    <span>⛺ <strong>BARTLE 2027 CAMP STAFF APPLICATIONS OPEN!</strong> Sign the &ldquo;One Summer&rdquo; Pledge &bull; Win the Bob Burnos Bobblehead!</span>
+    <button type="button" class="alert-action-btn" onclick="openStaffPledgeModal()">View Staff Pledge &rarr;</button>
+</div>
+
+<!-- Sky Blue Hero Section with Right Overlay Card -->
+<section class="hero">
+    <div class="hero-left">
+        <div class="hero-badges-strip">
+            <span class="hero-pill">⚜️ Linked Scouting Troops</span>
+            <span class="hero-pill">🏕️ Monthly Outdoor Camping</span>
+            <span class="hero-pill">📍 Olathe Christian Church</span>
         </div>
-        
-        <div class="special-events-panel">
-            <div class="special-events-header">Special Events</div>
-            <div class="special-event-item">
-                <div class="special-event-date">JAN 15-17</div>
-                <div class="special-event-title">Trappers Winter Campout</div>
+        <h1>Adventure. Leadership. Character.</h1>
+        <p>Welcome to Troops 412 &amp; 6412! We build confident, capable leaders in Olathe, Kansas, with an active, youth-led outdoor program. One family drop-off, two premier linked programs for young men and young women.</p>
+        <div>
+            <a href="#join" class="btn-hero-cta">Learn About Joining</a>
+            <button type="button" class="btn-hero-secondary" onclick="scrollToCalendar()">View Live Calendar</button>
+        </div>
+    </div>
+    
+    <!-- Hero Right Special Events Panel -->
+    <div class="special-events-panel">
+        <div class="special-events-header">
+            <span>Special Events Highlights</span>
+            <span class="tag">Confirmed</span>
+        </div>
+        <div class="special-event-item" onclick="openEventModal('event-vet-day-2026')">
+            <div class="special-event-date">NOV 11, 2026</div>
+            <div class="special-event-title">Veterans Day Flag Ceremony</div>
+            <div class="special-event-sub">Community Service | Civic Memorial Park</div>
+        </div>
+        <div class="special-event-item" onclick="openEventModal('event-trappers-2027')">
+            <div class="special-event-date">JAN 15&ndash;17, 2027</div>
+            <div class="special-event-title">Trappers Rendezvous</div>
+            <div class="special-event-sub">Firm Date | Camp Naish | Potter, Camp Master</div>
+        </div>
+        <div class="special-event-item" onclick="openEventModal('event-salt-mine-2027')">
+            <div class="special-event-date">MAR 05&ndash;07, 2027</div>
+            <div class="special-event-title">Strataca Salt Mine Underground</div>
+            <div class="special-event-sub">Sleep 650 ft Underground | 2x Merit Badges</div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Dynamic Column Layout -->
+<main class="main-container" id="calendar-section">
+    
+    <!-- Left Side Column: Live Dynamic Google Calendar Events Feed -->
+    <section>
+        <div class="column-title-row">
+            <h2 class="column-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--logo-red);" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Upcoming Troop Events
+            </h2>
+            <span style="font-size: 0.85rem; font-weight: 700; color: var(--tertiary-dark);" id="live-time-badge">Season 2026&ndash;2027</span>
+        </div>
+
+        <!-- Google Calendar Integration Toolbar & Status Card -->
+        <div class="gcal-sync-card">
+            <div class="gcal-header-bar">
+                <div class="gcal-status-group">
+                    <span class="gcal-status-dot" id="sync-status-dot" title="Live Sync Active"></span>
+                    <div>
+                        <div class="gcal-feed-title" id="sync-feed-title">Google Calendar v3 API Integration</div>
+                        <div class="gcal-feed-meta" id="sync-last-timestamp">Live Feed Synchronized &bull; ID: troop412olathe@gmail.com</div>
+                    </div>
+                </div>
+
+                <div class="gcal-actions-group">
+                    <button type="button" class="btn-sync-action primary-sync" id="btn-refresh-feed" onclick="syncGoogleCalendar()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" id="sync-spinner-icon" aria-hidden="true">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/>
+                        </svg>
+                        Refresh Feed
+                    </button>
+                    <button type="button" class="btn-sync-action" onclick="openFeedParserModal()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <polyline points="16 18 22 12 16 6"></polyline>
+                            <polyline points="8 6 2 12 8 18"></polyline>
+                        </svg>
+                        Feed Inspector
+                    </button>
+                    <button type="button" class="btn-sync-action" onclick="exportScheduleICS()">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Export .ics
+                    </button>
+                </div>
             </div>
-            <div class="special-event-item">
-                <div class="special-event-date">JUN 04-27</div>
-                <div class="special-event-title">H. Roe Bartle Summer Camp</div>
+
+            <!-- Interactive Filters & Search Controls -->
+            <div class="gcal-controls-row">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="event-search-input" placeholder="Search events, locations, merit badges, camp masters..." oninput="handleSearchInput(this.value)">
+                </div>
+                <div>
+                    <select class="view-range-select" id="event-range-select" onchange="handleRangeChange(this.value)">
+                        <option value="all">Full 2026&ndash;2027 Schedule</option>
+                        <option value="next30">Next 30 Days (Immediate)</option>
+                        <option value="next90" selected>Upcoming 90 Days</option>
+                        <option value="spring2027">Spring 2027 Season</option>
+                        <option value="summer2027">Summer &amp; High Adventure 2027</option>
+                    </select>
+                </div>
             </div>
+
+            <div class="filter-tabs-row">
+                <div class="unit-filter-pills" id="unit-pills-container">
+                    <button type="button" class="filter-btn active" data-unit="all" onclick="setUnitFilter('all')">All Units</button>
+                    <button type="button" class="filter-btn unit-t412" data-unit="troop412" onclick="setUnitFilter('troop412')">Troop 412 (Boys)</button>
+                    <button type="button" class="filter-btn unit-t6412" data-unit="troop6412" onclick="setUnitFilter('troop6412')">Troop 6412 (Girls)</button>
+                    <button type="button" class="filter-btn" data-unit="joint" onclick="setUnitFilter('joint')">Linked &amp; Outings</button>
+                </div>
+
+                <label class="firm-checkbox-label">
+                    <input type="checkbox" id="chk-firm-only" onchange="toggleFirmOnly(this.checked)">
+                    <span>Firm / Confirmed Only</span>
+                </label>
+            </div>
+
+            <!-- Category Chips -->
+            <div class="category-chips-bar" id="category-chips-container">
+                <button type="button" class="cat-chip active" data-cat="all" onclick="setCategoryFilter('all')">All Categories</button>
+                <button type="button" class="cat-chip" data-cat="campout" onclick="setCategoryFilter('campout')">⛺ Campouts &amp; Treks</button>
+                <button type="button" class="cat-chip" data-cat="meeting" onclick="setCategoryFilter('meeting')">⚜️ Troop Meetings</button>
+                <button type="button" class="cat-chip" data-cat="oa" onclick="setCategoryFilter('oa')">🏹 OA &amp; Honor Camping</button>
+                <button type="button" class="cat-chip" data-cat="service" onclick="setCategoryFilter('service')">🛠️ Service &amp; District</button>
+            </div>
+
+            <div class="feed-counter-banner">
+                <span id="events-count-display">Loading calendar events...</span>
+                <span id="calendar-feed-format-badge" style="font-weight: 700; color: var(--logo-blue);">GCal v3 API Ready</span>
+            </div>
+        </div>
+
+        <!-- The Target Container for Dynamic Google Calendar JavaScript Parser -->
+        <div class="events-layout" id="events-layout">
+            <!-- Dynamic Google Calendar JavaScript script populates event entries here -->
+        </div>
+
+        <div style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <button type="button" class="btn-sync-action" onclick="showAllSeasonEvents()">
+                Show Complete 52-Weekend Camping Schedule
+            </button>
+            <span style="font-size: 0.82rem; color: #667788;">Synchronized with Council &amp; Troop Master Sheet</span>
         </div>
     </section>
 
-    <!-- Main Dynamic Layout -->
-    <main class="main-container">
+    <!-- Right Side Column: Join Cards, Bartle Staff Challenge & Roster Database -->
+    <section id="join" class="column-join-wrapper">
         
-        <!-- Left Side Column: Live Calendar Events List -->
-        <section>
-            <h2 class="column-title">Upcoming Troop Events</h2>
-            <div class="events-layout">
-                <!-- Dynamic events loaded via JavaScript below -->
-                <p style="color: #666; font-style: italic;">Loading upcoming events from calendar...</p>
-            </div>
-            
-            <a href="[suspicious link removed]" target="_blank" class="view-calendar-link">View Full Calendar on Troop Webhost</a>
-        </section>
-
-        <!-- Right Side Column: Join Cards & Roster Access -->
-        <section id="join">
-            <h2 class="column-title">&nbsp;</h2>
-            
-            <div class="info-cards-grid">
-                
-                <div class="info-box">
-                    <h3>How to Join Troop 412</h3>
-                    <p>Learn details about joining our program for young men. Chartered by Olathe Christian Church.</p>
-                </div>
-
-                <div class="info-box">
-                    <h3>How to Join Troop 6412</h3>
-                    <p>Learn details about joining our program for young women. Chartered by Olathe Christian Church.</p>
-                </div>
-
-                <div class="info-box">
-                    <h3>Meeting Location & Schedule</h3>
-                    <p>We meet weekly at Olathe Christian Church. Reach out to verify specific times for your age brackets.</p>
-                </div>
-
-                <div class="info-box">
-                    <h3>About Our Program</h3>
-                    <p>Our Scouting program is youth-led and outdoor-focused, prioritizing monthly troop camping, patrol leadership, and character development.</p>
-                </div>
-
-            </div>
-
-            <div class="member-portal-box">
-                <h3>Are You A Member?</h3>
-                <p>Access the full Troop Webhost database <a href="[suspicious link removed]" target="_blank">here</a>.</p>
-                <a href="[suspicious link removed]" target="_blank" class="btn-portal-submit">Log In to Troop Webhost</a>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- Footer Disclaimers -->
-    <footer>
-        <p>&copy; 2026 Scouting BSA Troops 412 & 6412 - Olathe, KS.</p>
-        <p>Chartered by Olathe Christian Church.</p>
-        <div class="legal-text">
-            This website is independently operated and is not sponsored by, endorsed by, or affiliated with the Boy Scouts of America. 
-            The opinions expressed herein are those of the author alone and in no way represent the views of the Boy Scouts of America. 
-            BOY SCOUTS OF AMERICA®, the BSA Universal Emblem, and all other related marks are trademarks owned exclusively by the Boy Scouts of America.
+        <!-- Bartle Camp Staff Summer 2027 Challenge Card -->
+        <div class="bartle-staff-box">
+            <h3>
+                <span>🏕️</span>
+                <span>H. Roe Bartle Camp Staff 2027</span>
+            </h3>
+            <p><strong>The &ldquo;One Summer&rdquo; Challenge:</strong> Serve one summer on camp staff at Bartle Scout Reservation! Take the pledge, submit your application, and unlock your leadership potential.</p>
+            <ul class="staff-perks-list">
+                <li>🍕 <strong>All-Staff Pizza Party:</strong> Hosted for all 412/6412 staffers during the 2027 camping season.</li>
+                <li>⚾ <strong>The Bobblehead Drawing:</strong> Win a rare, coveted <em>Smiley Bob Burnos Bobblehead</em>!</li>
+                <li>📅 <strong>Timeline:</strong> Applications Oct&ndash;Nov 2026 &bull; Interviews Dec 2026 (Christmas Break).</li>
+            </ul>
+            <button type="button" class="btn-staff-pledge" onclick="openStaffPledgeModal()">Open 2027 Staff Commitment Form &rarr;</button>
         </div>
-    </footer>
 
-    <!-- Google Calendar Live Integration Script -->
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const calendarId = "pqvipdsbmo2t9h6np8o6i1fu79abrnap@import.calendar.google.com";
-        const icalUrl = `[suspicious link removed]{encodeURIComponent(calendarId)}/public/basic.ics`;
-        const proxyUrl = `[suspicious link removed]{encodeURIComponent(icalUrl)}`;
-
-        const eventsContainer = document.querySelector('.events-layout');
-        if (!eventsContainer) return;
-
-        fetch(proxyUrl)
-            .then(response => {
-                if (!response.ok) throw new Error("Network response was not ok");
-                return response.text();
-            })
-            .then(icsData => {
-                const events = parseICS(icsData);
-                const now = new Date();
-                const upcomingEvents = events
-                    .filter(evt => evt.startDate >= now)
-                    .sort((a, b) => a.startDate - b.startDate)
-                    .slice(0, 5);
-
-                if (upcomingEvents.length === 0) {
-                    eventsContainer.innerHTML = '<p>No upcoming events scheduled at this time.</p>';
-                    return;
-                }
-
-                eventsContainer.innerHTML = '';
-                upcomingEvents.forEach(event => {
-                    eventsContainer.appendChild(createEventElement(event));
-                });
-            })
-            .catch(error => {
-                console.error("Error loading calendar events:", error);
-                eventsContainer.innerHTML = '<p>Check our full calendar link below for upcoming meetings and outings.</p>';
-            });
-
-        function parseICS(icsText) {
-            const events = [];
-            const lines = icsText.split(/\r\n|\n|\r/);
-            let currentEvent = null;
-
-            for (let i = 0; i < lines.length; i++) {
-                let line = lines[i];
-
-                if (line.startsWith('BEGIN:VEVENT')) {
-                    currentEvent = {};
-                } else if (line.startsWith('END:VEVENT') && currentEvent) {
-                    if (currentEvent.startDate && currentEvent.summary) {
-                        events.push(currentEvent);
-                    }
-                    currentEvent = null;
-                } else if (currentEvent) {
-                    if (line.startsWith('SUMMARY:')) {
-                        currentEvent.summary = line.substring(8).replace(/\\,/g, ',').replace(/\\;/g, ';');
-                    } else if (line.startsWith('DESCRIPTION:')) {
-                        currentEvent.description = line.substring(12).replace(/\\n/g, ' ').replace(/\\,/g, ',');
-                    } else if (line.startsWith('LOCATION:')) {
-                        currentEvent.location = line.substring(9).replace(/\\,/g, ',');
-                    } else if (line.startsWith('DTSTART')) {
-                        const dateStr = line.split(':');
-                        currentEvent.startDate = parseICSDate(dateStr[1] || dateStr[0]);
-                    }
-                }
-            }
-            return events;
-        }
-
-        function parseICSDate(dateStr) {
-            if (!dateStr) return new Date();
-            const year = parseInt(dateStr.substring(0, 4));
-            const month = parseInt(dateStr.substring(4, 6)) - 1;
-            const day = parseInt(dateStr.substring(6, 8));
+        <!-- Program & Join Information Cards -->
+        <div class="info-cards-grid">
             
-            if (dateStr.includes('T')) {
-                const hour = parseInt(dateStr.substring(9, 11));
-                const minute = parseInt(dateStr.substring(11, 13));
-                return new Date(Date.UTC(year, month, day, hour, minute));
+            <div class="info-box info-box-highlight">
+                <div class="info-box-header">
+                    <span style="font-size: 1.2rem;">⛺</span>
+                    <h3>How to Join Troop 412 (Boys)</h3>
+                </div>
+                <p>Open to young men ages 11&ndash;17 (or 5th graders with Arrow of Light). Our program combines rank advancement, outdoor skills, and leadership under active youth patrol leaders. Chartered by Olathe Christian Church.</p>
+            </div>
+
+            <div class="info-box info-box-blue">
+                <div class="info-box-header">
+                    <span style="font-size: 1.2rem;">🧭</span>
+                    <h3>How to Join Troop 6412 (Girls)</h3>
+                </div>
+                <p>Our thriving linked troop for young women offers the exact same high-adventure, patrol-method Scouting opportunities. We meet simultaneously on Tuesday nights, making family logistics seamless with one drop-off!</p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span style="font-size: 1.2rem;">📍</span>
+                    <h3>Meeting Location &amp; Schedule</h3>
+                </div>
+                <p><strong>Every Tuesday from 7:00 PM &ndash; 8:30 PM</strong> at Olathe Christian Church. Monthly weekend camping trips year-round across Kansas, Missouri, and premier high-adventure bases.</p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span style="font-size: 1.2rem;">🎯</span>
+                    <h3>2027 Strategic Priorities</h3>
+                </div>
+                <p>Guided by our Strategic Framework: <strong>1. Monthly Outdoor Camping First</strong> &bull; <strong>2. Youth-Led &amp; Patrol-Driven</strong> &bull; <strong>3. Year-Round Recruiting</strong> &bull; <strong>4. Financial Self-Reliance</strong> &bull; <strong>5. Honor Camping &amp; Venture Synergy</strong>.</p>
+            </div>
+
+            <div class="info-box">
+                <div class="info-box-header">
+                    <span style="font-size: 1.2rem;">📱</span>
+                    <h3>Parent Communication Hub</h3>
+                </div>
+                <p>We keep busy families connected via direct text updates and group channels (Band &amp; Remind) for instant logistics, paired with this live Google Calendar feed and biweekly email digests.</p>
+            </div>
+
+        </div>
+
+        <!-- Member Portal Access Box -->
+        <div class="member-portal-box" id="portal">
+            <h3>Are You An Active Member?</h3>
+            <p>Access the full Troop Webhost roster, individual scout accounts, rank advancement logs, and committee billing records.</p>
+            <button type="button" class="btn-portal-submit" onclick="openLoginModal()">Access Troop Webhost Portal</button>
+        </div>
+    </section>
+
+</main>
+
+<!-- MODAL 1: Event Details & Logistics Modal -->
+<div class="modal-overlay" id="event-detail-modal" role="dialog" aria-modal="true" aria-labelledby="modal-event-title">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3 id="modal-event-title">Event Logistics &amp; Details</h3>
+            <button type="button" class="modal-close-btn" onclick="closeEventModal()" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-event-body">
+            <!-- Populated dynamically via JS -->
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-btn" onclick="copyModalEventInfo()">Copy Info for Remind/Band</button>
+            <button type="button" class="modal-btn primary" id="modal-export-ics-btn" onclick="exportCurrentModalICS()">Export to iCal (.ics)</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 2: Google Calendar Feed Inspector & Custom Parser Modal -->
+<div class="modal-overlay" id="feed-parser-modal" role="dialog" aria-modal="true" aria-labelledby="modal-feed-title">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3 id="modal-feed-title">Google Calendar API Feed Inspector</h3>
+            <button type="button" class="modal-close-btn" onclick="closeFeedParserModal()" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom: 12px; font-size: 0.88rem; color: #445566;">
+                This integration script parses Google Calendar v3 API JSON payloads or iCal / ICS feeds, automatically extracting event dates, locations, unit tags, and notes into the Troop 412/6412 preview.
+            </p>
+            <div style="margin-bottom: 14px;">
+                <label style="font-weight: 700; font-size: 0.8rem; text-transform: uppercase; color: #334455;" for="feed-preset-select">Select Calendar Feed Source / Preset:</label>
+                <select id="feed-preset-select" class="view-range-select" style="width: 100%; margin-top: 4px;" onchange="loadPresetFeed(this.value)">
+                    <option value="official_schedule">Official Troop 412 &amp; 6412 Schedule (Full 2026–2027)</option>
+                    <option value="firm_only">Confirmed &amp; Firm Events Only</option>
+                    <option value="bartle_window">Summer 2027 Bartle Camping Window (June 2027)</option>
+                    <option value="custom">Custom JSON / iCal Data (Editable below)</option>
+                </select>
+            </div>
+
+            <label style="font-weight: 700; font-size: 0.8rem; text-transform: uppercase; color: #334455;" for="feed-raw-textarea">Raw Google Calendar JSON / iCal Payload:</label>
+            <textarea id="feed-raw-textarea" class="feed-code-area" spellcheck="false"></textarea>
+
+            <div id="parse-metrics-badge" style="margin-top: 8px; font-size: 0.78rem; font-weight: 600; color: #2e7d32;">
+                Status: Verified active payload.
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-btn" onclick="resetToDefaultFeed()">Reset to Default</button>
+            <button type="button" class="modal-btn primary" onclick="parseAndApplyCustomFeed()">Parse &amp; Re-Render Events</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 3: Bartle Camp Staff 2027 Commitment Form & Bobblehead Drawing -->
+<div class="modal-overlay" id="staff-pledge-modal" role="dialog" aria-modal="true" aria-labelledby="modal-staff-title">
+    <div class="modal-dialog">
+        <div class="modal-header" style="background: #d84315;">
+            <h3 id="modal-staff-title">Bartle Camp Staff Commitment Form &bull; 2027</h3>
+            <button type="button" class="modal-close-btn" onclick="closeStaffPledgeModal()" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div style="text-align: center; margin-bottom: 16px;">
+                <div style="font-size: 2rem;">🏕️ 🍕 ⚾</div>
+                <h4 style="font-size: 1.15rem; color: #b73e00; margin-top: 4px;">The &ldquo;One Summer&rdquo; Challenge &bull; Troop 412 / 6412</h4>
+                <p style="font-size: 0.85rem; color: #666;">H. Roe Bartle Scout Reservation &bull; Summer Camp Staff 2027</p>
+            </div>
+
+            <div style="background: #fff8f2; border-left: 4px solid #d84315; padding: 12px 14px; border-radius: 4px; margin-bottom: 16px;">
+                <p style="font-style: italic; font-weight: 600; color: #4a2810; font-size: 0.9rem;">
+                    &ldquo;I pledge to give Bartle Camp Staff my absolute best effort for one full summer. I commit to completing the application process and giving camp staff a fair, honest shot. If I serve through the Summer of 2027 and decide it isn&rsquo;t for me, I am under no obligation to return the following year&mdash;but I promise to give it one genuine try.&rdquo;
+                </p>
+            </div>
+
+            <h5 style="font-size: 0.9rem; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #333;">Perks &amp; Incentives for Applicants:</h5>
+            <ul style="padding-left: 20px; font-size: 0.88rem; color: #444; margin-bottom: 16px;">
+                <li style="margin-bottom: 6px;"><strong>🍕 All-Staff Pizza Party:</strong> All Troop 412/6412 scouts who join the 2027 staff will be treated to a private troop pizza party at camp!</li>
+                <li><strong>⚾ The Grand Prize Drawing:</strong> Every applicant who completes their Christmas break interview enters the drawing to win a rare, coveted <strong>Smiley Bob Burnos Bobblehead</strong>!</li>
+            </ul>
+
+            <div style="background: #f4f8fa; padding: 12px; border-radius: 4px; border: 1px solid #dce8ed;">
+                <div style="font-weight: 700; font-size: 0.82rem; text-transform: uppercase; color: #445566; margin-bottom: 4px;">Critical Timeline:</div>
+                <div style="font-size: 0.85rem; color: #333;">
+                    &bull; <strong>Oct &ndash; Nov 2026:</strong> Staff Application window is open now.<br>
+                    &bull; <strong>Dec 2026 (Christmas Break):</strong> Official Staff Interviews.<br>
+                    &bull; <strong>Summer 2027:</strong> Your ultimate leadership journey begins at Bartle!
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-btn" onclick="closeStaffPledgeModal()">Close</button>
+            <button type="button" class="modal-btn primary" onclick="recordStaffPledge()">Record Scout Pledge</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL 4: Troop Webhost Portal Login Modal -->
+<div class="modal-overlay" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="modal-login-title">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h3 id="modal-login-title">Troop Webhost Member Access</h3>
+            <button type="button" class="modal-close-btn" onclick="closeLoginModal()" aria-label="Close modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p style="margin-bottom: 14px; font-size: 0.9rem; color: #444;">
+                Troops 412 and 6412 utilize <strong>Troop WebHost</strong> for member accounts, patrol duty rosters, rank advancement sign-offs, and committee communications.
+            </p>
+
+            <div style="background: #f4f9fb; border: 1px solid var(--border-blue); border-radius: 6px; padding: 16px; margin-bottom: 16px;">
+                <div style="font-weight: 700; font-size: 0.85rem; color: var(--text-dark); margin-bottom: 8px;">Portal Information:</div>
+                <div style="font-size: 0.85rem; color: #555; line-height: 1.6;">
+                    &bull; <strong>Troop Unit:</strong> BSA Troops 412 &amp; 6412 (Olathe, KS)<br>
+                    &bull; <strong>Charter Org:</strong> Olathe Christian Church<br>
+                    &bull; <strong>Troop WebHost Hostname:</strong> troopwebhost.org/Troop412Olathe
+                </div>
+            </div>
+
+            <div style="font-size: 0.85rem; color: #666; line-height: 1.45;">
+                Need your family login credentials or password reset? Please contact our Troop Webmaster or Committee Chair at the next regular Tuesday meeting.
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-btn primary" onclick="closeLoginModal()">Got It</button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer Disclaimers & Chartered Organization Notice -->
+<footer>
+    <p>&copy; 2026 Scouting BSA Troops 412 &amp; 6412 &mdash; Olathe, Kansas.</p>
+    <p>Chartered by Olathe Christian Church &bull; Iron Horse District &bull; Heart of America Council</p>
+    <div class="legal-text">
+        This website is independently operated and is not sponsored by, endorsed by, or affiliated with the Boy Scouts of America. 
+        The opinions expressed herein are those of the unit leaders and committee alone and in no way represent the official views of the Boy Scouts of America. 
+        BOY SCOUTS OF AMERICA&reg;, the BSA Universal Emblem, and all related trademarks are owned exclusively by the Boy Scouts of America.
+    </div>
+</footer>
+
+<api-shim></api-shim>
+
+<!-- Dynamic Google Calendar JavaScript Integration Script -->
+<script>
+/**
+ * Troop 412 & Troop 6412 Dynamic Google Calendar JavaScript Integration Engine
+ * 
+ * Features:
+ * - Parses Google Calendar v3 API JSON structures into rendered Scout event badges.
+ * - Parses iCalendar / RFC 5545 ICS feeds.
+ * - Real-time filtering by Unit (Troop 412, Troop 6412, Joint), Category, Date Window, and Search.
+ * - Dynamic iCal (.ics) download generation for single events and full troop schedules.
+ * - State persistence with Notebook App API Shim (getAppState / setAppState).
+ * - Full logistics modal showing Camp Masters, booking statuses, fees, and conflict notes.
+ */
+
+// Comprehensive 2026-2027 Schedule grounded directly in troop records
+const MASTER_GCAL_FEED = {
+    kind: "calendar#events",
+    summary: "BSA Troops 412 & 6412 Master Calendar",
+    updated: "2026-11-07T12:00:00Z",
+    timeZone: "America/Chicago",
+    items: [
+        {
+            id: "event-linked-mtg-2026-11-10",
+            summary: "Troop 412 & 6412 Linked Meeting & Bartle Staff Launch",
+            start: { dateTime: "2026-11-10T19:00:00-06:00" },
+            end: { dateTime: "2026-11-10T20:30:00-06:00" },
+            location: "Olathe Christian Church, 20261 W 153rd St, Olathe, KS",
+            description: "Weekly linked meeting for both Troops 412 & 6412. Launch of the Summer 2027 Bartle Camp Staff Commitment Form and Bob Burnos Bobblehead drawing! Patrol breakout and PLC planning.",
+            extendedProperties: {
+                unit: "joint",
+                category: "meeting",
+                isFirm: true,
+                campMaster: "Senior Patrol Leaders",
+                theme: "Staff Pledge & Cold Weather Camping Prep",
+                notes: "Bring signed Bartle commitment forms."
             }
-            return new Date(year, month, day);
+        },
+        {
+            id: "event-vet-day-2026",
+            summary: "Veterans Day Flag Ceremony (Service)",
+            start: { dateTime: "2026-11-11T09:00:00-06:00" },
+            end: { dateTime: "2026-11-11T11:00:00-06:00" },
+            location: "Olathe Civic Memorial Park, Olathe, KS",
+            description: "Annual community service project honoring local veterans with a formal color guard and flag retirement ceremony. Class A field uniform required.",
+            extendedProperties: {
+                unit: "joint",
+                category: "service",
+                isFirm: true,
+                campMaster: "Troop Committee",
+                theme: "Duty to Country & Service",
+                notes: "Full Field Uniform Class A with sash."
+            }
+        },
+        {
+            id: "event-prep-mtg-2026-11-17",
+            summary: "Cold Weather Skills & Trappers Rendezvous Prep",
+            start: { dateTime: "2026-11-17T19:00:00-06:00" },
+            end: { dateTime: "2026-11-17T20:30:00-06:00" },
+            location: "Olathe Christian Church",
+            description: "Outdoor survival, 3-layer cold weather clothing system, and Trappers Rendezvous equipment checks. Registration deadline for the commemorative Trappers beanie!",
+            extendedProperties: {
+                unit: "joint",
+                category: "meeting",
+                isFirm: true,
+                campMaster: "Patrol Guides",
+                theme: "Winter Readiness",
+                notes: "Must register by end of November to guarantee custom event beanie."
+            }
+        },
+        {
+            id: "event-thx-campout-2026",
+            summary: "Iron Chef & Thanksgiving Campout",
+            start: { dateTime: "2026-11-19T17:00:00-06:00" },
+            end: { dateTime: "2026-11-21T11:00:00-06:00" },
+            location: "Bromelsick Scout Reservation / Eisenhower State Park",
+            description: "Patrol-style cooking competition, Dutch oven turkey & feast. Note: Bromelsick is primitive and does not have electrical hookups. True wilderness experience!",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: false,
+                campMaster: "Patrol Grubmasters",
+                theme: "Iron Chef Outdoor Cooking",
+                notes: "Bromelsick doesn't have power; bring battery lanterns and cold weather sleeping pads."
+            }
+        },
+        {
+            id: "event-winter-overnight-2026",
+            summary: "Winter Camping Overnight (1 Night)",
+            start: { dateTime: "2026-12-03T18:00:00-06:00" },
+            end: { dateTime: "2026-12-04T12:00:00-06:00" },
+            location: "Camp Naish / Naish Scout Reservation",
+            description: "Focused cold weather overnight testing sleeping systems, tent insulation, and winter fire building. Great preparation for Trappers Rendezvous in January.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: false,
+                campMaster: "TBD",
+                theme: "Winter Survival & Shelter",
+                notes: "1-night fast overnight."
+            }
+        },
+        {
+            id: "event-lockin-2026",
+            summary: "Troop Annual Holiday Lock-In",
+            start: { dateTime: "2026-12-10T18:30:00-06:00" },
+            end: { dateTime: "2026-12-12T09:00:00-06:00" },
+            location: "Olathe Christian Church Fellowship Hall & Gym",
+            description: "Annual end-of-year lock-in! Board game tournaments, video gaming setups, movie marathon, pizza feast, and youth leadership elections. Camp Masters Betsy & John McCall.",
+            extendedProperties: {
+                unit: "joint",
+                category: "meeting",
+                isFirm: true,
+                campMaster: "Betsy or John McCall",
+                theme: "Year-End Fellowship & Celebration",
+                notes: "Bring sleeping bags, favorite board games, and power strips."
+            }
+        },
+        {
+            id: "event-staff-interviews-2026",
+            summary: "Bartle Summer Camp Staff Youth Interviews",
+            start: { dateTime: "2026-12-24T09:00:00-06:00" },
+            end: { dateTime: "2026-12-30T17:00:00-06:00" },
+            location: "Heart of America Council Headquarters / Bartle Reservation",
+            description: "Interviews take place over Christmas break 2026 for youth applicants who signed the One Summer Pledge. Completing the interview qualifies you for the Bob Burnos Bobblehead drawing!",
+            extendedProperties: {
+                unit: "joint",
+                category: "service",
+                isFirm: true,
+                campMaster: "Council Staff Directors",
+                theme: "Staff Leadership Selection",
+                notes: "Class A uniform and completed application required."
+            }
+        },
+        {
+            id: "event-trappers-2027",
+            summary: "Trappers Rendezvous (Firm Date)",
+            start: { dateTime: "2027-01-15T16:00:00-06:00" },
+            end: { dateTime: "2027-01-17T11:00:00-06:00" },
+            location: "Camp Naish, Bonner Springs, KS",
+            description: "Premier winter rendezvous! Mountain man encampment, black powder shooting, tomahawk throwing, knife skills, flint & steel competitions. Must have registered by Nov for the official beanie.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: true,
+                campMaster: "Potter",
+                theme: "Trappers & Mountain Men",
+                notes: "Weekend 3. Need to register by Nov to get beanie. Camp Master Potter leading."
+            }
+        },
+        {
+            id: "event-mining-geology-2027",
+            summary: "Mining & Geology Campout",
+            start: { dateTime: "2027-02-05T17:00:00-06:00" },
+            end: { dateTime: "2027-02-07T11:00:00-06:00" },
+            location: "Local Geology Outpost / Naish Outpost",
+            description: "Geology and Mining in Society merit badge focus. Field excursions, rock identification, cave formations, and fossil studies.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: false,
+                campMaster: "TBD",
+                theme: "Mining & Geology",
+                notes: "Weekend 6. Salt mine booked up for Feb; alternative geology campout."
+            }
+        },
+        {
+            id: "event-pinewood-derby-2027",
+            summary: "Iron Horse District Pinewood Derby & Service",
+            start: { dateTime: "2027-02-26T18:00:00-06:00" },
+            end: { dateTime: "2027-02-28T14:00:00-06:00" },
+            location: "Olathe Community Center",
+            description: "Troops 412 & 6412 provide race track logistics, timing system management, and concession support for Cub Scout packs across the Iron Horse District.",
+            extendedProperties: {
+                unit: "joint",
+                category: "service",
+                isFirm: false,
+                campMaster: "District Committee",
+                theme: "District Service & STEM",
+                notes: "Weekend 9. Great leadership hour opportunity."
+            }
+        },
+        {
+            id: "event-salt-mine-2027",
+            summary: "Backup Strataca Salt Mine Campout (Firm Date)",
+            start: { dateTime: "2027-03-05T15:00:00-06:00" },
+            end: { dateTime: "2027-03-07T12:00:00-06:00" },
+            location: "Strataca Underground Salt Museum, Hutchinson, KS",
+            description: "Sleep 650 feet underground in an active salt mine! Saturday night stay. $95/adult, $60/kid. Register ASAP — strictly limited to 30 spots available. Scouts earn 2x Merit Badges: Geology & Mining in Society.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: true,
+                campMaster: "Troop Committee",
+                theme: "Underground Geological Expedition",
+                notes: "Weekend 10. Saturday night only underground. $95 adult, $60 youth. 30 spots total. 2x MBs."
+            }
+        },
+        {
+            id: "event-bartle-outpost-2027",
+            summary: "Bartle Outpost Campout",
+            start: { dateTime: "2027-03-19T16:00:00-06:00" },
+            end: { dateTime: "2027-03-21T11:00:00-06:00" },
+            location: "H. Roe Bartle Scout Reservation, Osceola, MO",
+            description: "Spring Break outdoor expedition! Iron Chef campfire cookoff, advanced fire building, geocaching treasure hunt, patrol games, and back-to-basics wilderness skills.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: false,
+                campMaster: "Schweiger",
+                theme: "Iron Chef, Fire & Geocaching",
+                notes: "Weekend 12. Olathe Spring Break weekend."
+            }
+        },
+        {
+            id: "event-wildwood-2027",
+            summary: "Wildwood Outdoor Education Center Campout",
+            start: { dateTime: "2027-04-16T17:00:00-06:00" },
+            end: { dateTime: "2027-04-18T11:00:00-06:00" },
+            location: "Wildwood Outdoor Education Center, La Cygne, KS",
+            description: "High and low ropes challenge courses, team building exercises, ecology studies, and patrol advancement.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: false,
+                campMaster: "TBD",
+                theme: "Low Ropes & Team Challenge",
+                notes: "Weekend 16."
+            }
+        },
+        {
+            id: "event-oa-induction1-2027",
+            summary: "Order of the Arrow Spring Induction #1",
+            start: { dateTime: "2027-04-23T18:00:00-06:00" },
+            end: { dateTime: "2027-04-25T11:00:00-06:00" },
+            location: "Camp Naish / Naish OA Grounds",
+            description: "Spring Ordeal and Brotherhood induction for newly elected OA candidates from Troop 412 and Troop 6412.",
+            extendedProperties: {
+                unit: "joint",
+                category: "oa",
+                isFirm: false,
+                campMaster: "OA Lodge Tamegonit",
+                theme: "Honor Camping Service",
+                notes: "Weekend 17. Candidates bring work clothes."
+            }
+        },
+        {
+            id: "event-fly-fishing-2027",
+            summary: "Fly Fishing High Adventure Campout (Firm Date)",
+            start: { dateTime: "2027-04-30T16:00:00-06:00" },
+            end: { dateTime: "2027-05-02T12:00:00-06:00" },
+            location: "Hidden Valley Outfitters (HVO) / Niangua River, Bennett Spring, MO",
+            description: "Trout fishing clinic on the Niangua River. Fly tying, stream entomology, casting techniques, and Fly Fishing Merit Badge. Booked with Hidden Valley Outfitters.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: true,
+                campMaster: "HVO Lead / Committee",
+                theme: "Fly Fishing & Aquatic Ecology",
+                notes: "Weekend 18. Reached out to book with HVO."
+            }
+        },
+        {
+            id: "event-bartle-summer-2027",
+            summary: "H. Roe Bartle Scout Reservation Summer Camp",
+            start: { dateTime: "2027-06-04T07:00:00-06:00" },
+            end: { dateTime: "2027-06-27T14:00:00-06:00" },
+            location: "H. Roe Bartle Scout Reservation, Osceola, MO",
+            description: "The premier highlight of the scouting year! 10-day long-term summer camp session at Camp Piercing Arrow / Camp Lone Star / Camp Sawmill. Merit badges, sailing, motorboating, COPE, and Mic-O-Say ceremonies.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: true,
+                campMaster: "Schweiger",
+                theme: "Bartle Summer Camp Session",
+                notes: "Weekends 23–26. Multi-session camping window."
+            }
+        },
+        {
+            id: "event-canoe-trip-2027",
+            summary: "Living Waters River Canoe Expedition",
+            start: { dateTime: "2027-08-20T16:00:00-06:00" },
+            end: { dateTime: "2027-08-22T13:00:00-06:00" },
+            location: "Living Waters Canoe Outpost, Niangua River, MO",
+            description: "12-mile canoe float trip down the Niangua. Patrol-style water safety, river navigation, and sandbar campfire cooking. Selected Living Waters over Hidden Valley for superior patrol campsite access.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: false,
+                campMaster: "Ryan White",
+                theme: "River Expedition & Canoeing MB",
+                notes: "Weekend 34. Team recommended Living Waters over Hidden Valley for patrol camping."
+            }
+        },
+        {
+            id: "event-district-camporee-2027",
+            summary: "Iron Horse District Fall Camporee (Firm Date)",
+            start: { dateTime: "2027-09-24T17:00:00-06:00" },
+            end: { dateTime: "2027-09-26T11:00:00-06:00" },
+            location: "Camp Naish, Bonner Springs, KS",
+            description: "Annual district-wide patrol competition. Fire building speed tests, pioneering bridge build, first aid emergency rally, orienteering course, and district campfire show.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: true,
+                campMaster: "District Camporee Staff",
+                theme: "Patrol Skill Mastery",
+                notes: "Weekend 39. Firm Date."
+            }
+        },
+        {
+            id: "event-fort-osage-2027",
+            summary: "Fort Osage Historic Living History Campout (Firm Date)",
+            start: { dateTime: "2027-10-22T16:00:00-06:00" },
+            end: { dateTime: "2027-10-24T11:00:00-06:00" },
+            location: "Fort Osage National Historic Landmark, Sibley, MO",
+            description: "Historic 1808 frontier fort encampment. 19th century living history, candle making workshop, Pioneering Merit Badge build, blacksmithing demonstrations. Camp Master Chris Foote.",
+            extendedProperties: {
+                unit: "joint",
+                category: "campout",
+                isFirm: true,
+                campMaster: "Chris Foote",
+                theme: "Pioneering MB & 1808 Living History",
+                notes: "Weekend 43. Firm Date. Candle making event."
+            }
+        }
+    ]
+};
+
+// Global App State
+let activeCalendarEvents = [];
+let currentUnitFilter = "all";
+let currentCategoryFilter = "all";
+let currentRangeFilter = "next90";
+let isFirmOnlyFilter = false;
+let currentSearchQuery = "";
+let currentModalEvent = null;
+let lastSyncTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+/**
+ * Parses Google Calendar v3 API JSON response format into normalized Scout Event models.
+ */
+function parseGoogleCalendarAPIResponse(json) {
+    if (!json || !Array.isArray(json.items)) {
+        console.warn("Invalid Google Calendar JSON: missing items array.");
+        return [];
+    }
+
+    return json.items.map(item => {
+        // Date parsing: handle both full dateTime (ISO) or date (all-day)
+        let startDateObj = null;
+        let endDateObj = null;
+        let isAllDay = false;
+
+        if (item.start) {
+            if (item.start.dateTime) {
+                startDateObj = new Date(item.start.dateTime);
+            } else if (item.start.date) {
+                startDateObj = new Date(item.start.date + "T00:00:00");
+                isAllDay = true;
+            }
         }
 
-        function createEventElement(event) {
-            const d = event.startDate;
-            const dayName = d.toLocaleDateString('en-US', { weekday: 'short' });
-            const monthName = d.toLocaleDateString('en-US', { month: 'short' });
-            const dayNum = d.getDate();
-            const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        if (item.end) {
+            if (item.end.dateTime) {
+                endDateObj = new Date(item.end.dateTime);
+            } else if (item.end.date) {
+                endDateObj = new Date(item.end.date + "T23:59:59");
+            }
+        }
 
-            const div = document.createElement('div');
-            div.className = 'event-entry';
+        if (!startDateObj || isNaN(startDateObj.getTime())) {
+            startDateObj = new Date();
+        }
 
-            const isTroop6412 = event.summary.includes('6412');
-            const titleClass = isTroop6412 ? 't6412' : '';
-            const locationText = event.location ? ` | ${event.location}` : '';
+        const ext = item.extendedProperties || {};
 
-            div.innerHTML = `
-                <div class="event-badge">
-                    <div class="badge-day">${dayName}</div>
-                    <div class="badge-month">${monthName}</div>
-                    <div class="badge-number">${dayNum}</div>
+        return {
+            id: item.id || `gcal-${Math.random().toString(36).substr(2, 9)}`,
+            summary: item.summary || "Troop Scouting Event",
+            description: item.description || "No event description provided.",
+            location: item.location || "Olathe, KS",
+            startDate: startDateObj,
+            endDate: endDateObj || startDateObj,
+            isAllDay: isAllDay,
+            unit: ext.unit || "joint",
+            category: ext.category || "campout",
+            isFirm: ext.isFirm === true || (item.summary && item.summary.includes("(Firm Date)")),
+            campMaster: ext.campMaster || "Troop Leadership",
+            theme: ext.theme || "Outdoor Scouting",
+            notes: ext.notes || "Check troop gear checklist before attending."
+        };
+    }).sort((a, b) => a.startDate.getTime() - b.startDate.getTime());
+}
+
+/**
+ * Parses iCalendar RFC 5545 ICS string feeds.
+ */
+function parseICSFeed(icsString) {
+    const events = [];
+    if (!icsString || typeof icsString !== 'string') return events;
+
+    const lines = icsString.split(/\r\n|\n|\r/);
+    let current = null;
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (line === "BEGIN:VEVENT") {
+            current = { id: `ics-${events.length + 1}` };
+        } else if (line === "END:VEVENT" && current) {
+            if (current.summary && current.startDate) {
+                events.push({
+                    id: current.id,
+                    summary: current.summary,
+                    description: current.description || "",
+                    location: current.location || "Olathe, KS",
+                    startDate: current.startDate,
+                    endDate: current.endDate || current.startDate,
+                    isAllDay: current.isAllDay || false,
+                    unit: "joint",
+                    category: "campout",
+                    isFirm: current.summary.includes("Firm"),
+                    campMaster: "Troop Leadership",
+                    theme: "Scouting Outing",
+                    notes: current.description || ""
+                });
+            }
+            current = null;
+        } else if (current) {
+            if (line.startsWith("SUMMARY:")) {
+                current.summary = line.substring(8);
+            } else if (line.startsWith("LOCATION:")) {
+                current.location = line.substring(9);
+            } else if (line.startsWith("DESCRIPTION:")) {
+                current.description = line.substring(12);
+            } else if (line.startsWith("DTSTART")) {
+                const parts = line.split(":");
+                if (parts[1]) {
+                    const dt = parseICSDate(parts[1]);
+                    if (dt) current.startDate = dt;
+                }
+            } else if (line.startsWith("DTEND")) {
+                const parts = line.split(":");
+                if (parts[1]) {
+                    const dt = parseICSDate(parts[1]);
+                    if (dt) current.endDate = dt;
+                }
+            }
+        }
+    }
+    return events;
+}
+
+function parseICSDate(str) {
+    if (!str) return null;
+    const clean = str.replace(/[^0-9]/g, '');
+    if (clean.length >= 8) {
+        const y = parseInt(clean.substring(0, 4), 10);
+        const m = parseInt(clean.substring(4, 6), 10) - 1;
+        const d = parseInt(clean.substring(6, 8), 10);
+        const h = clean.length >= 12 ? parseInt(clean.substring(8, 10), 10) : 0;
+        const min = clean.length >= 12 ? parseInt(clean.substring(10, 12), 10) : 0;
+        return new Date(y, m, d, h, min);
+    }
+    return null;
+}
+
+/**
+ * Formats a Date object into { dayOfWeek, monthShort, dayNumber, timeString, fullDateRange }
+ */
+function formatEventDates(start, end) {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    const startDay = days[start.getDay()];
+    const startMonth = months[start.getMonth()];
+    const startNum = start.getDate();
+    const startYear = start.getFullYear();
+
+    const isMultiDay = end && (end.getDate() !== start.getDate() || end.getMonth() !== start.getMonth() || end.getFullYear() !== start.getFullYear());
+
+    let dayBadge = startDay;
+    if (isMultiDay) {
+        const endDay = days[end.getDay()];
+        dayBadge = `${startDay}-${endDay}`;
+    }
+
+    const startHour = start.getHours();
+    const startMin = start.getMinutes();
+    const isExactTime = (startHour !== 0 || startMin !== 0);
+
+    let timeString = "";
+    if (isExactTime) {
+        const ampm = startHour >= 12 ? "PM" : "AM";
+        const h12 = startHour % 12 || 12;
+        const mStr = startMin < 10 ? `0${startMin}` : startMin;
+        timeString = `${h12}:${mStr} ${ampm}`;
+    }
+
+    let dateRangeStr = "";
+    if (isMultiDay) {
+        const endMonth = months[end.getMonth()];
+        const endNum = end.getDate();
+        const endYear = end.getFullYear();
+        if (startMonth === endMonth && startYear === endYear) {
+            dateRangeStr = `${startDay}-${days[end.getDay()]}, ${startMonth} ${startNum}–${endNum}, ${startYear}`;
+        } else {
+            dateRangeStr = `${startMonth} ${startNum} – ${endMonth} ${endNum}, ${endYear}`;
+        }
+    } else {
+        dateRangeStr = `${startDay}, ${startMonth} ${startNum}, ${startYear}`;
+        if (timeString) dateRangeStr += ` &bull; ${timeString}`;
+    }
+
+    return {
+        badgeDay: dayBadge,
+        badgeMonth: startMonth,
+        badgeNumber: startNum,
+        timeLocationString: dateRangeStr
+    };
+}
+
+/**
+ * Dynamically renders events in .events-layout matching the styling from snippet
+ */
+function renderEventsLayout() {
+    const container = document.getElementById("events-layout");
+    const countDisplay = document.getElementById("events-count-display");
+    if (!container) return;
+
+    // Apply active filters
+    const now = new Date("2026-11-07T00:00:00"); // Base reference time: Nov 7, 2026
+
+    const filtered = activeCalendarEvents.filter(ev => {
+        // Unit filter
+        if (currentUnitFilter !== "all" && ev.unit !== currentUnitFilter && ev.unit !== "joint") {
+            return false;
+        }
+
+        // Category filter
+        if (currentCategoryFilter !== "all" && ev.category !== currentCategoryFilter) {
+            return false;
+        }
+
+        // Firm only
+        if (isFirmOnlyFilter && !ev.isFirm) {
+            return false;
+        }
+
+        // Search query
+        if (currentSearchQuery.trim() !== "") {
+            const q = currentSearchQuery.toLowerCase();
+            const text = `${ev.summary} ${ev.description} ${ev.location} ${ev.campMaster} ${ev.theme} ${ev.notes}`.toLowerCase();
+            if (!text.includes(q)) return false;
+        }
+
+        // Time range window
+        const diffDays = (ev.startDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+        if (currentRangeFilter === "next30") {
+            if (diffDays < 0 || diffDays > 32) return false;
+        } else if (currentRangeFilter === "next90") {
+            if (diffDays < 0 || diffDays > 92) return false;
+        } else if (currentRangeFilter === "spring2027") {
+            const m = ev.startDate.getMonth();
+            const y = ev.startDate.getFullYear();
+            if (y !== 2027 || m < 2 || m > 4) return false; // Mar-May 2027
+        } else if (currentRangeFilter === "summer2027") {
+            const m = ev.startDate.getMonth();
+            const y = ev.startDate.getFullYear();
+            if (y !== 2027 || m < 5 || m > 7) return false; // Jun-Aug 2027
+        }
+
+        return true;
+    });
+
+    if (countDisplay) {
+        countDisplay.textContent = `Displaying ${filtered.length} of ${activeCalendarEvents.length} scheduled troop events`;
+    }
+
+    if (filtered.length === 0) {
+        container.innerHTML = `
+            <div class="empty-events-state">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: #94a3b8; margin-bottom: 8px;" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="8" y1="12" x2="16" y2="12"></line>
+                </svg>
+                <h4>No Upcoming Events Match This Filter</h4>
+                <p>Try switching to &ldquo;All Units&rdquo;, resetting your search query, or selecting &ldquo;Full 2026–2027 Schedule&rdquo;.</p>
+                <button type="button" class="btn-sync-action primary-sync" onclick="resetAllFilters()">Reset All Filters</button>
+            </div>
+        `;
+        return;
+    }
+
+    let html = "";
+    filtered.forEach(ev => {
+        const dates = formatEventDates(ev.startDate, ev.endDate);
+
+        // Styling classes matching user excerpt
+        let titleClass = "joint";
+        let badgeClass = "";
+        let unitPillHtml = "";
+
+        if (ev.unit === "troop412") {
+            titleClass = ""; // default is red
+            unitPillHtml = `<span class="pill-tag pill-unit-412">Troop 412 Boys</span>`;
+        } else if (ev.unit === "troop6412") {
+            titleClass = "t6412"; // sky blue
+            badgeClass = "t6412-badge";
+            unitPillHtml = `<span class="pill-tag pill-unit-6412">Troop 6412 Girls</span>`;
+        } else {
+            titleClass = "joint";
+            unitPillHtml = `<span class="pill-tag pill-unit-joint">Linked Troops</span>`;
+        }
+
+        const firmPillHtml = ev.isFirm ? `<span class="pill-tag pill-firm">Firm Date</span>` : "";
+        const catMap = {
+            campout: "Campout",
+            meeting: "Meeting",
+            oa: "Order of Arrow",
+            service: "Service"
+        };
+        const catPillHtml = `<span class="pill-tag pill-category">${catMap[ev.category] || "Event"}</span>`;
+
+        html += `
+            <div class="event-entry" data-event-id="${ev.id}">
+                <div class="event-badge ${badgeClass}">
+                    <div class="badge-day">${dates.badgeDay}</div>
+                    <div class="badge-month">${dates.badgeMonth}</div>
+                    <div class="badge-number">${dates.badgeNumber}</div>
                 </div>
                 <div class="event-info">
-                    <h3 class="${titleClass}">${escapeHtml(event.summary)}</h3>
-                    <div class="event-time-loc">${timeStr}${escapeHtml(locationText)}</div>
-                    <p class="event-desc">${escapeHtml(event.description || 'Join us for our upcoming troop gathering!')}</p>
+                    <div class="event-header-row">
+                        <div class="event-pill-row">
+                            ${firmPillHtml}
+                            ${unitPillHtml}
+                            ${catPillHtml}
+                        </div>
+                    </div>
+                    <h3 class="${titleClass}">${escapeHtml(ev.summary)}</h3>
+                    <div class="event-time-loc">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        <span>${dates.timeLocationString}</span>
+                        <span>&bull;</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <span>${escapeHtml(ev.location)}</span>
+                    </div>
+                    <p class="event-desc">${escapeHtml(ev.description)}</p>
+                    
+                    <div class="event-meta-footer">
+                        <div class="event-tags-list">
+                            <span class="event-tag-item">Master: ${escapeHtml(ev.campMaster)}</span>
+                            ${ev.theme ? `<span class="event-tag-item">Theme: ${escapeHtml(ev.theme)}</span>` : ""}
+                        </div>
+                        <div class="event-actions-buttons">
+                            <button type="button" class="btn-card-action btn-details" onclick="openEventModal('${ev.id}')">Logistics &amp; Notes</button>
+                            <button type="button" class="btn-card-action" onclick="exportSingleEventICS('${ev.id}')" title="Download .ics for this event">iCal</button>
+                        </div>
+                    </div>
                 </div>
-            `;
-            return div;
-        }
+            </div>
+        `;
+    });
 
-        function escapeHtml(str) {
-            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+    container.innerHTML = html;
+}
+
+/**
+ * Simulates real-time Google Calendar synchronization
+ */
+function syncGoogleCalendar() {
+    const spinner = document.getElementById("sync-spinner-icon");
+    const statusDot = document.getElementById("sync-status-dot");
+    const timestampElem = document.getElementById("sync-last-timestamp");
+    const feedFormatBadge = document.getElementById("calendar-feed-format-badge");
+
+    if (statusDot) statusDot.classList.add("syncing");
+    if (spinner) {
+        spinner.style.transition = "transform 0.6s ease";
+        spinner.style.transform = "rotate(360deg)";
+    }
+    if (feedFormatBadge) feedFormatBadge.textContent = "Syncing Google Feed...";
+
+    setTimeout(() => {
+        if (statusDot) statusDot.classList.remove("syncing");
+        if (spinner) spinner.style.transform = "rotate(0deg)";
+        lastSyncTimestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        if (timestampElem) {
+            timestampElem.textContent = `Live Feed Synchronized \u2022 ${lastSyncTimestamp} \u2022 ID: troop412olathe@gmail.com`;
+        }
+        if (feedFormatBadge) feedFormatBadge.textContent = "GCal v3 API Ready";
+
+        renderEventsLayout();
+        saveCurrentAppState();
+    }, 450);
+}
+
+/**
+ * Filter and search event handlers
+ */
+function handleSearchInput(query) {
+    currentSearchQuery = query;
+    renderEventsLayout();
+    saveCurrentAppState();
+}
+
+function handleRangeChange(val) {
+    currentRangeFilter = val;
+    renderEventsLayout();
+    saveCurrentAppState();
+}
+
+function setUnitFilter(unit) {
+    currentUnitFilter = unit;
+    const pills = document.querySelectorAll("#unit-pills-container .filter-btn");
+    pills.forEach(p => {
+        if (p.getAttribute("data-unit") === unit) {
+            p.classList.add("active");
+        } else {
+            p.classList.remove("active");
         }
     });
-    </script>
+    renderEventsLayout();
+    saveCurrentAppState();
+}
+
+function setCategoryFilter(cat) {
+    currentCategoryFilter = cat;
+    const chips = document.querySelectorAll("#category-chips-container .cat-chip");
+    chips.forEach(c => {
+        if (c.getAttribute("data-cat") === cat) {
+            c.classList.add("active");
+        } else {
+            c.classList.remove("active");
+        }
+    });
+    renderEventsLayout();
+    saveCurrentAppState();
+}
+
+function toggleFirmOnly(checked) {
+    isFirmOnlyFilter = checked;
+    renderEventsLayout();
+    saveCurrentAppState();
+}
+
+function resetAllFilters() {
+    currentUnitFilter = "all";
+    currentCategoryFilter = "all";
+    currentRangeFilter = "all";
+    isFirmOnlyFilter = false;
+    currentSearchQuery = "";
+
+    const searchInput = document.getElementById("event-search-input");
+    if (searchInput) searchInput.value = "";
+
+    const rangeSelect = document.getElementById("event-range-select");
+    if (rangeSelect) rangeSelect.value = "all";
+
+    const firmChk = document.getElementById("chk-firm-only");
+    if (firmChk) firmChk.checked = false;
+
+    setUnitFilter("all");
+    setCategoryFilter("all");
+    renderEventsLayout();
+    saveCurrentAppState();
+}
+
+function showAllSeasonEvents() {
+    const rangeSelect = document.getElementById("event-range-select");
+    if (rangeSelect) rangeSelect.value = "all";
+    currentRangeFilter = "all";
+    renderEventsLayout();
+    const elem = document.getElementById("calendar-section");
+    if (elem) elem.scrollIntoView({ behavior: 'smooth' });
+}
+
+function scrollToCalendar() {
+    const elem = document.getElementById("calendar-section");
+    if (elem) elem.scrollIntoView({ behavior: 'smooth' });
+}
+
+/**
+ * Modal Handling Logic
+ */
+function openEventModal(eventId) {
+    const ev = activeCalendarEvents.find(e => e.id === eventId);
+    if (!ev) return;
+    currentModalEvent = ev;
+
+    const modal = document.getElementById("event-detail-modal");
+    const title = document.getElementById("modal-event-title");
+    const body = document.getElementById("modal-event-body");
+
+    if (title) title.textContent = ev.summary;
+
+    const dates = formatEventDates(ev.startDate, ev.endDate);
+    const unitText = ev.unit === "troop412" ? "Troop 412 (Boys Program)" :
+                     ev.unit === "troop6412" ? "Troop 6412 (Girls Program)" :
+                     "Joint Linked Troop Outing";
+
+    if (body) {
+        body.innerHTML = `
+            <div style="margin-bottom: 14px;">
+                <span class="pill-tag ${ev.isFirm ? 'pill-firm' : 'pill-category'}">${ev.isFirm ? 'Confirmed Firm Date' : 'Tentative Planning'}</span>
+                <span class="pill-tag pill-unit-joint" style="margin-left: 6px;">${escapeHtml(unitText)}</span>
+            </div>
+            <p style="font-size: 0.95rem; color: #333; margin-bottom: 16px; line-height: 1.5;">${escapeHtml(ev.description)}</p>
+            
+            <div class="logistics-grid">
+                <span class="logistics-label">Schedule &amp; Dates:</span>
+                <span class="logistics-val">${dates.timeLocationString}</span>
+
+                <span class="logistics-label">Location:</span>
+                <span class="logistics-val">${escapeHtml(ev.location)}</span>
+
+                <span class="logistics-label">Camp Master:</span>
+                <span class="logistics-val">${escapeHtml(ev.campMaster)}</span>
+
+                <span class="logistics-label">Theme / Badges:</span>
+                <span class="logistics-val">${escapeHtml(ev.theme)}</span>
+
+                <span class="logistics-label">Special Notes:</span>
+                <span class="logistics-val" style="color: #a6192e;">${escapeHtml(ev.notes)}</span>
+            </div>
+
+            <div style="background: #eef7fa; border-left: 4px solid var(--logo-blue); padding: 10px 14px; border-radius: 4px; font-size: 0.85rem; color: #235467;">
+                <strong>Troop Reminder:</strong> Patrol duty rosters and grubmaster grocery funds are coordinated at Tuesday troop meetings prior to campouts.
+            </div>
+        `;
+    }
+
+    if (modal) modal.classList.add("open");
+}
+
+function closeEventModal() {
+    const modal = document.getElementById("event-detail-modal");
+    if (modal) modal.classList.remove("open");
+    currentModalEvent = null;
+}
+
+function openFeedParserModal() {
+    const modal = document.getElementById("feed-parser-modal");
+    const textarea = document.getElementById("feed-raw-textarea");
+    if (textarea) {
+        textarea.value = JSON.stringify(MASTER_GCAL_FEED, null, 2);
+    }
+    if (modal) modal.classList.add("open");
+}
+
+function closeFeedParserModal() {
+    const modal = document.getElementById("feed-parser-modal");
+    if (modal) modal.classList.remove("open");
+}
+
+function loadPresetFeed(preset) {
+    const textarea = document.getElementById("feed-raw-textarea");
+    if (!textarea) return;
+
+    if (preset === "official_schedule") {
+        textarea.value = JSON.stringify(MASTER_GCAL_FEED, null, 2);
+    } else if (preset === "firm_only") {
+        const firmFiltered = {
+            ...MASTER_GCAL_FEED,
+            summary: "Troops 412 & 6412 Confirmed Firm Events Only",
+            items: MASTER_GCAL_FEED.items.filter(item => item.extendedProperties && item.extendedProperties.isFirm)
+        };
+        textarea.value = JSON.stringify(firmFiltered, null, 2);
+    } else if (preset === "bartle_window") {
+        const bartleOnly = {
+            ...MASTER_GCAL_FEED,
+            summary: "Summer 2027 Bartle Camping Window",
+            items: MASTER_GCAL_FEED.items.filter(item => item.summary.includes("Bartle") || item.summary.includes("Staff"))
+        };
+        textarea.value = JSON.stringify(bartleOnly, null, 2);
+    }
+}
+
+function parseAndApplyCustomFeed() {
+    const textarea = document.getElementById("feed-raw-textarea");
+    const metricsBadge = document.getElementById("parse-metrics-badge");
+    if (!textarea) return;
+
+    const raw = textarea.value.trim();
+    let parsed = [];
+
+    const startTime = performance.now();
+
+    if (raw.startsWith("{") || raw.startsWith("[")) {
+        try {
+            const json = JSON.parse(raw);
+            parsed = parseGoogleCalendarAPIResponse(json);
+        } catch (err) {
+            if (metricsBadge) {
+                metricsBadge.textContent = `JSON Parse Error: ${err.message}`;
+                metricsBadge.style.color = "#d4351c";
+            }
+            return;
+        }
+    } else if (raw.includes("BEGIN:VCALENDAR")) {
+        parsed = parseICSFeed(raw);
+    } else {
+        if (metricsBadge) {
+            metricsBadge.textContent = "Unrecognized format. Please provide valid Google Calendar JSON or iCal ICS text.";
+            metricsBadge.style.color = "#d4351c";
+        }
+        return;
+    }
+
+    const elapsed = (performance.now() - startTime).toFixed(1);
+
+    if (parsed.length > 0) {
+        activeCalendarEvents = parsed;
+        renderEventsLayout();
+        if (metricsBadge) {
+            metricsBadge.textContent = `Success: Parsed ${parsed.length} events in ${elapsed}ms. Calendar re-rendered.`;
+            metricsBadge.style.color = "#2e7d32";
+        }
+        setTimeout(() => {
+            closeFeedParserModal();
+        }, 600);
+        saveCurrentAppState();
+    } else {
+        if (metricsBadge) {
+            metricsBadge.textContent = "Warning: 0 events found in payload.";
+            metricsBadge.style.color = "#f59e0b";
+        }
+    }
+}
+
+function resetToDefaultFeed() {
+    activeCalendarEvents = parseGoogleCalendarAPIResponse(MASTER_GCAL_FEED);
+    const textarea = document.getElementById("feed-raw-textarea");
+    if (textarea) textarea.value = JSON.stringify(MASTER_GCAL_FEED, null, 2);
+    renderEventsLayout();
+    closeFeedParserModal();
+    saveCurrentAppState();
+}
+
+function openStaffPledgeModal() {
+    const modal = document.getElementById("staff-pledge-modal");
+    if (modal) modal.classList.add("open");
+}
+
+function closeStaffPledgeModal() {
+    const modal = document.getElementById("staff-pledge-modal");
+    if (modal) modal.classList.remove("open");
+}
+
+function recordStaffPledge() {
+    alert("Pledge acknowledged! You are eligible for the Smiley Bob Burnos Bobblehead drawing. Please submit your council staff application by November 30.");
+    closeStaffPledgeModal();
+}
+
+function openLoginModal() {
+    const modal = document.getElementById("login-modal");
+    if (modal) modal.classList.add("open");
+}
+
+function closeLoginModal() {
+    const modal = document.getElementById("login-modal");
+    if (modal) modal.classList.remove("open");
+}
+
+/**
+ * iCalendar RFC 5545 Export Generator
+ */
+function generateICSContent(eventList) {
+    let ics = "BEGIN:VCALENDAR\r\n";
+    ics += "VERSION:2.0\r\n";
+    ics += "PRODID:-//Troop 412 and 6412 Olathe KS//Scouting Calendar//EN\r\n";
+    ics += "CALSCALE:GREGORIAN\r\n";
+    ics += "METHOD:PUBLISH\r\n";
+
+    function formatICSDate(d) {
+        const pad = (n) => n < 10 ? '0' + n : '' + n;
+        return d.getUTCFullYear() +
+               pad(d.getUTCMonth() + 1) +
+               pad(d.getUTCDate()) + "T" +
+               pad(d.getUTCHours()) +
+               pad(d.getUTCMinutes()) +
+               pad(d.getUTCSeconds()) + "Z";
+    }
+
+    eventList.forEach(ev => {
+        ics += "BEGIN:VEVENT\r\n";
+        ics += `UID:${ev.id}@troop412olathe.org\r\n`;
+        ics += `DTSTAMP:${formatICSDate(new Date())}\r\n`;
+        ics += `DTSTART:${formatICSDate(ev.startDate)}\r\n`;
+        ics += `DTEND:${formatICSDate(ev.endDate)}\r\n`;
+        ics += `SUMMARY:${ev.summary.replace(/,/g, '\\,')}\r\n`;
+        ics += `DESCRIPTION:${(ev.description + ' | Camp Master: ' + ev.campMaster).replace(/,/g, '\\,')}\r\n`;
+        ics += `LOCATION:${ev.location.replace(/,/g, '\\,')}\r\n`;
+        ics += "STATUS:CONFIRMED\r\n";
+        ics += "END:VEVENT\r\n";
+    });
+
+    ics += "END:VCALENDAR\r\n";
+    return ics;
+}
+
+function exportScheduleICS() {
+    const icsData = generateICSContent(activeCalendarEvents);
+    const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute('download', 'Troop412_6412_2026_2027_Calendar.ics');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function exportSingleEventICS(eventId) {
+    const ev = activeCalendarEvents.find(e => e.id === eventId);
+    if (!ev) return;
+    const icsData = generateICSContent([ev]);
+    const blob = new Blob([icsData], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute('download', `${ev.id}.ics`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function exportCurrentModalICS() {
+    if (currentModalEvent) {
+        exportSingleEventICS(currentModalEvent.id);
+    }
+}
+
+function copyModalEventInfo() {
+    if (!currentModalEvent) return;
+    const dates = formatEventDates(currentModalEvent.startDate, currentModalEvent.endDate);
+    const text = `📢 Troop 412/6412 Event: ${currentModalEvent.summary}\n📅 Date: ${dates.timeLocationString}\n📍 Location: ${currentModalEvent.location}\n🏕️ Camp Master: ${currentModalEvent.campMaster}\n📝 Info: ${currentModalEvent.description}`;
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Event summary copied to clipboard! Ready to paste into Remind, GroupMe, or Band.");
+        }).catch(() => {
+            alert(text);
+        });
+    } else {
+        alert(text);
+    }
+}
+
+function escapeHtml(str) {
+    if (!str) return "";
+    return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+/**
+ * State persistence with Notebook App API Shim
+ */
+async function loadSavedAppState() {
+    if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === 'function') {
+        try {
+            const state = await window.notebookAppApi.getAppState();
+            if (state) {
+                if (state.unit) currentUnitFilter = state.unit;
+                if (state.category) currentCategoryFilter = state.category;
+                if (state.range) currentRangeFilter = state.range;
+                if (typeof state.firmOnly === 'boolean') isFirmOnlyFilter = state.firmOnly;
+                if (state.search) currentSearchQuery = state.search;
+
+                // Reflect in UI controls
+                const searchInput = document.getElementById("event-search-input");
+                if (searchInput && state.search) searchInput.value = state.search;
+
+                const rangeSelect = document.getElementById("event-range-select");
+                if (rangeSelect && state.range) rangeSelect.value = state.range;
+
+                const firmChk = document.getElementById("chk-firm-only");
+                if (firmChk) firmChk.checked = isFirmOnlyFilter;
+
+                setUnitFilter(currentUnitFilter);
+                setCategoryFilter(currentCategoryFilter);
+            }
+        } catch (e) {
+            console.log("Could not load persisted notebook state:", e);
+        }
+    }
+}
+
+function saveCurrentAppState() {
+    if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === 'function') {
+        window.notebookAppApi.setAppState({
+            unit: currentUnitFilter,
+            category: currentCategoryFilter,
+            range: currentRangeFilter,
+            firmOnly: isFirmOnlyFilter,
+            search: currentSearchQuery,
+            lastSynced: lastSyncTimestamp
+        });
+    }
+}
+
+// Global click-outside modal closer
+window.addEventListener("click", function(event) {
+    if (event.target && event.target.classList.contains("modal-overlay")) {
+        event.target.classList.remove("open");
+    }
+});
+
+// ESC key closes modals
+window.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        const modals = document.querySelectorAll(".modal-overlay.open");
+        modals.forEach(m => m.classList.remove("open"));
+    }
+});
+
+// App Initialization on DOM Ready
+document.addEventListener("DOMContentLoaded", async function() {
+    // 1. Initial parse of the official Google Calendar feed
+    activeCalendarEvents = parseGoogleCalendarAPIResponse(MASTER_GCAL_FEED);
+
+    // 2. Load any saved filter state from Notebook API
+    await loadSavedAppState();
+
+    // 3. Render events into .events-layout
+    renderEventsLayout();
+
+    // 4. Save state
+    saveCurrentAppState();
+});
+</script>
+
 </body>
 </html>
