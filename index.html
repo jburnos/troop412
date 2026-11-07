@@ -22,137 +22,7 @@
             margin: 0;
             padding: 0;
         }
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // 1. Google Calendar ID extracted from your embed link
-    const calendarId = "pqvipdsbmo2t9h6np8o6i1fu79abrnap@import.calendar.google.com";
-    const icalUrl = `[suspicious link removed]{encodeURIComponent(calendarId)}/public/basic.ics`;
-    
-    // 2. Use a free CORS proxy to fetch the public iCal feed directly in the browser
-    const proxyUrl = `[suspicious link removed]{encodeURIComponent(icalUrl)}`;
 
-    const eventsContainer = document.querySelector('.events-layout');
-    if (!eventsContainer) return;
-
-    // Optional: Display loading state while fetching events
-    eventsContainer.innerHTML = '<p style="color: #666; font-style: italic;">Loading upcoming events from calendar...</p>';
-
-    fetch(proxyUrl)
-        .then(response => {
-            if (!response.ok) throw new Error("Network response was not ok");
-            return response.text();
-        })
-        .then(icsData => {
-            const events = parseICS(icsData);
-            
-            // Filter out past events and sort by start date
-            const now = new Date();
-            const upcomingEvents = events
-                .filter(evt => evt.startDate >= now)
-                .sort((a, b) => a.startDate - b.startDate)
-                .slice(0, 5); // Display top 5 upcoming events
-
-            if (upcomingEvents.length === 0) {
-                eventsContainer.innerHTML = '<p>No upcoming events scheduled at this time.</p>';
-                return;
-            }
-
-            eventsContainer.innerHTML = ''; // Clear container for dynamic entries
-
-            upcomingEvents.forEach(event => {
-                const eventHtml = createEventElement(event);
-                eventsContainer.appendChild(eventHtml);
-            });
-        })
-        .catch(error => {
-            console.error("Error loading calendar events:", error);
-            // Fallback message if calendar fails to load
-            eventsContainer.innerHTML = '<p>Unable to load live calendar feed right now. Please check back soon or click below for the full calendar.</p>';
-        });
-
-    // Simple iCal (.ics) parser function
-    function parseICS(icsText) {
-        const events = [];
-        const lines = icsText.split(/\r\n|\n|\r/);
-        let currentEvent = null;
-
-        for (let i = 0; i < lines.length; i++) {
-            let line = lines[i];
-
-            if (line.startsWith('BEGIN:VEVENT')) {
-                currentEvent = {};
-            } else if (line.startsWith('END:VEVENT') && currentEvent) {
-                if (currentEvent.startDate && currentEvent.summary) {
-                    events.push(currentEvent);
-                }
-                currentEvent = null;
-            } else if (currentEvent) {
-                if (line.startsWith('SUMMARY:')) {
-                    currentEvent.summary = line.substring(8).replace(/\\,/g, ',').replace(/\\;/g, ';');
-                } else if (line.startsWith('DESCRIPTION:')) {
-                    currentEvent.description = line.substring(12).replace(/\\n/g, ' ').replace(/\\,/g, ',');
-                } else if (line.startsWith('LOCATION:')) {
-                    currentEvent.location = line.substring(9).replace(/\\,/g, ',');
-                } else if (line.startsWith('DTSTART')) {
-                    const dateStr = line.split(':')[3];
-                    currentEvent.startDate = parseICSDate(dateStr);
-                }
-            }
-        }
-        return events;
-    }
-
-    // Helper to convert iCal date strings (YYYYMMDDTHHMMSSZ) into JS Date objects
-    function parseICSDate(dateStr) {
-        if (!dateStr) return new Date();
-        const year = parseInt(dateStr.substring(0, 4));
-        const month = parseInt(dateStr.substring(4, 6)) - 1;
-        const day = parseInt(dateStr.substring(6, 8));
-        
-        if (dateStr.includes('T')) {
-            const hour = parseInt(dateStr.substring(9, 11));
-            const minute = parseInt(dateStr.substring(11, 13));
-            return new Date(Date.UTC(year, month, day, hour, minute));
-        }
-        return new Date(year, month, day);
-    }
-
-    // Creates DOM element matching site CSS classes: event-entry, event-badge, and event-info
-    function createEventElement(event) {
-        const d = event.startDate;
-        const dayName = d.toLocaleDateString('en-US', { weekday: 'short' });
-        const monthName = d.toLocaleDateString('en-US', { month: 'short' });
-        const dayNum = d.getDate();
-        const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-
-        const div = document.createElement('div');
-        div.className = 'event-entry';
-
-        // Check if event title belongs to Troop 6412 to apply blue heading style
-        const isTroop6412 = event.summary.includes('6412');
-        const titleClass = isTroop6412 ? 't6412' : '';
-        const locationText = event.location ? ` | ${event.location}` : '';
-
-        div.innerHTML = `
-            <div class="event-badge">
-                <div class="badge-day">${dayName}</div>
-                <div class="badge-month">${monthName}</div>
-                <div class="badge-number">${dayNum}</div>
-            </div>
-            <div class="event-info">
-                <h3 class="${titleClass}">${escapeHtml(event.summary)}</h3>
-                <div class="event-time-loc">${timeStr}${escapeHtml(locationText)}</div>
-                <p class="event-desc">${escapeHtml(event.description || 'Join us for our upcoming troop gathering!')}</p>
-            </div>
-        `;
-        return div;
-    }
-
-    function escapeHtml(str) {
-        return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
-    }
-});
-</script>
         body {
             font-family: 'Open Sans', sans-serif;
             color: var(--text-dark);
@@ -185,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
             color: #ffffff;
         }
 
-        /* Responsive image styling matching the layout scale */
         .header-logo {
             height: 75px;
             width: auto;
@@ -235,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
             border-radius: 4px;
         }
 
-        /* --- NEW MEMBER ALERT RIBBON --- */
+        /* --- TOP ALERT RIBBON --- */
         .alert-ribbon {
             background-color: var(--dark-banner);
             color: #ffffff;
@@ -248,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         /* --- HERO SECTION --- */
         .hero {
-            background: linear-gradient(rgba(78, 195, 224, 0.85), rgba(78, 195, 224, 0.85)), url('https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            background: linear-gradient(rgba(78, 195, 224, 0.85), rgba(78, 195, 224, 0.85)), url('[suspicious link removed]') no-repeat center center/cover;
             padding: 60px 5%;
             display: flex;
             justify-content: space-between;
@@ -329,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
             line-height: 1.2;
         }
 
-        /* --- MAIN SPLIT CONTAINER --- */
+        /* --- MAIN CONTAINER --- */
         .main-container {
             max-width: 1200px;
             margin: 50px auto;
@@ -501,6 +370,7 @@ document.addEventListener("DOMContentLoaded", function() {
             opacity: 0.5;
         }
 
+        /* --- RESPONSIVE MOBILE STYLING --- */
         @media (max-width: 992px) {
             .hero {
                 flex-direction: column;
@@ -525,6 +395,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 flex-wrap: wrap;
                 justify-content: center;
             }
+            .event-entry {
+                flex-direction: row;
+                gap: 15px;
+            }
         }
     </style>
 </head>
@@ -533,7 +407,6 @@ document.addEventListener("DOMContentLoaded", function() {
     <!-- Header Navigation Section -->
     <header>
         <div class="header-brand">
-            <!-- Linked patch logo pointing to local image file -->
             <img src="logo.png" alt="Troop 412 & 6412 Logo" class="header-logo">
             <div class="logo-text">
                 <h2>Troop 412 & Troop 6412</h2>
@@ -544,18 +417,18 @@ document.addEventListener("DOMContentLoaded", function() {
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="#join" class="btn-join-header">Join Troop</a></li>
-                <li><a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" target="_blank">Calendar</a></li>
-                <li><a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" class="btn-login-header" target="_blank">Member Login</a></li>
+                <li><a href="[suspicious link removed]" target="_blank">Calendar</a></li>
+                <li><a href="[suspicious link removed]" class="btn-login-header" target="_blank">Member Login</a></li>
             </ul>
         </nav>
     </header>
 
-    <!-- Crimson Top Alert Bar -->
+    <!-- Top Alert Ribbon -->
     <div class="alert-ribbon">
-        ⛺ <strong>NEW MEMBER NIGHT!</strong> Open House for both Troops, Oct 25th. See Calendar for details. 📢
+        ⛺ <strong>NEW MEMBER NIGHT!</strong> Open House for both Troops. See Calendar for details. 📢
     </div>
 
-    <!-- Sky Blue Hero Section with Right Overlay Card -->
+    <!-- Hero Section -->
     <section class="hero">
         <div class="hero-left">
             <h1>Adventure. Leadership. Character.</h1>
@@ -566,82 +439,31 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="special-events-panel">
             <div class="special-events-header">Special Events</div>
             <div class="special-event-item">
-                <div class="special-event-date">SEP 14th</div>
-                <div class="special-event-title">Joint Troop Open House</div>
+                <div class="special-event-date">JAN 15-17</div>
+                <div class="special-event-title">Trappers Winter Campout</div>
             </div>
             <div class="special-event-item">
-                <div class="special-event-date">NOV 11</div>
-                <div class="special-event-title">Veterans Day Flag Ceremony</div>
+                <div class="special-event-date">JUN 04-27</div>
+                <div class="special-event-title">H. Roe Bartle Summer Camp</div>
             </div>
         </div>
     </section>
 
-    <!-- Main Dynamic Column Layout -->
+    <!-- Main Dynamic Layout -->
     <main class="main-container">
         
-        <!-- Left Side Column: Upcoming Events List -->
+        <!-- Left Side Column: Live Calendar Events List -->
         <section>
             <h2 class="column-title">Upcoming Troop Events</h2>
             <div class="events-layout">
-                
-                <div class="event-entry">
-                    <div class="event-badge">
-                        <div class="badge-day">Tues</div>
-                        <div class="badge-month">Aug</div>
-                        <div class="badge-number">22</div>
-                    </div>
-                    <div class="event-info">
-                        <h3>Troop 412 Meeting</h3>
-                        <div class="event-time-loc">7:00 PM | Olathe Christian Church</div>
-                        <p class="event-desc">A full description of Troop 412's next gathering, covering activities and key information. All current and prospective members are invited.</p>
-                    </div>
-                </div>
-
-                <div class="event-entry">
-                    <div class="event-badge">
-                        <div class="badge-day">Thurs</div>
-                        <div class="badge-month">Aug</div>
-                        <div class="badge-number">24</div>
-                    </div>
-                    <div class="event-info">
-                        <h3 class="t6412">Troop 6412 Meeting</h3>
-                        <div class="event-time-loc">7:00 PM | Olathe Christian Church</div>
-                        <p class="event-desc">A full description of Troop 6412's next gathering, covering activities and key information. All current and prospective members are invited.</p>
-                    </div>
-                </div>
-
-                <div class="event-entry">
-                    <div class="event-badge">
-                        <div class="badge-day">Fri-Sun</div>
-                        <div class="badge-month">Sept</div>
-                        <div class="badge-number">15</div>
-                    </div>
-                    <div class="event-info">
-                        <h3 style="color: var(--text-dark);">Fall Campout (Both Troops)</h3>
-                        <div class="event-time-loc">FRI-SUN, SEPT 15-17 | Clinton Lake</div>
-                        <p class="event-desc">Weekend outdoor trip for all scouts. Focus will be on rank advancement, outdoor cooking skills, and patrol structures.</p>
-                    </div>
-                </div>
-
-                <div class="event-entry">
-                    <div class="event-badge">
-                        <div class="badge-day">Sat</div>
-                        <div class="badge-month">Oct</div>
-                        <div class="badge-number">07</div>
-                    </div>
-                    <div class="event-info">
-                        <h3 style="color: var(--text-dark);">Service Project: Food Drive</h3>
-                        <div class="event-time-loc">SAT, OCT 7 | Local Neighborhoods</div>
-                        <p class="event-desc">Community support initiative to benefit local pantries and give back to our surrounding neighborhood community.</p>
-                    </div>
-                </div>
-
+                <!-- Dynamic events loaded via JavaScript below -->
+                <p style="color: #666; font-style: italic;">Loading upcoming events from calendar...</p>
             </div>
             
-            <a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" target="_blank" class="view-calendar-link">View Full Calendar</a>
+            <a href="[suspicious link removed]" target="_blank" class="view-calendar-link">View Full Calendar on Troop Webhost</a>
         </section>
 
-        <!-- Right Side Column: Join Cards & Roster Database Access -->
+        <!-- Right Side Column: Join Cards & Roster Access -->
         <section id="join">
             <h2 class="column-title">&nbsp;</h2>
             
@@ -649,12 +471,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                 <div class="info-box">
                     <h3>How to Join Troop 412</h3>
-                    <p>Learn details about joining our program for boys. Chartered by Olathe Christian Church.</p>
+                    <p>Learn details about joining our program for young men. Chartered by Olathe Christian Church.</p>
                 </div>
 
                 <div class="info-box">
                     <h3>How to Join Troop 6412</h3>
-                    <p>Learn details about joining our program for girls. Chartered by Olathe Christian Church.</p>
+                    <p>Learn details about joining our program for young women. Chartered by Olathe Christian Church.</p>
                 </div>
 
                 <div class="info-box">
@@ -664,15 +486,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 <div class="info-box">
                     <h3>About Our Program</h3>
-                    <p>Our scouts program is designed to combine individual growth with team coordination up to evaluation and rank goals.</p>
+                    <p>Our Scouting program is youth-led and outdoor-focused, prioritizing monthly troop camping, patrol leadership, and character development.</p>
                 </div>
 
             </div>
 
             <div class="member-portal-box">
                 <h3>Are You A Member?</h3>
-                <p>Access the full Troop Webhost database <a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" target="_blank">here</a>.</p>
-                <a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" target="_blank" class="btn-portal-submit">Log In to Troop Webhost</a>
+                <p>Access the full Troop Webhost database <a href="[suspicious link removed]" target="_blank">here</a>.</p>
+                <a href="[suspicious link removed]" target="_blank" class="btn-portal-submit">Log In to Troop Webhost</a>
             </div>
         </section>
 
@@ -689,5 +511,122 @@ document.addEventListener("DOMContentLoaded", function() {
         </div>
     </footer>
 
+    <!-- Google Calendar Live Integration Script -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const calendarId = "pqvipdsbmo2t9h6np8o6i1fu79abrnap@import.calendar.google.com";
+        const icalUrl = `[suspicious link removed]{encodeURIComponent(calendarId)}/public/basic.ics`;
+        const proxyUrl = `[suspicious link removed]{encodeURIComponent(icalUrl)}`;
+
+        const eventsContainer = document.querySelector('.events-layout');
+        if (!eventsContainer) return;
+
+        fetch(proxyUrl)
+            .then(response => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.text();
+            })
+            .then(icsData => {
+                const events = parseICS(icsData);
+                const now = new Date();
+                const upcomingEvents = events
+                    .filter(evt => evt.startDate >= now)
+                    .sort((a, b) => a.startDate - b.startDate)
+                    .slice(0, 5);
+
+                if (upcomingEvents.length === 0) {
+                    eventsContainer.innerHTML = '<p>No upcoming events scheduled at this time.</p>';
+                    return;
+                }
+
+                eventsContainer.innerHTML = '';
+                upcomingEvents.forEach(event => {
+                    eventsContainer.appendChild(createEventElement(event));
+                });
+            })
+            .catch(error => {
+                console.error("Error loading calendar events:", error);
+                eventsContainer.innerHTML = '<p>Check our full calendar link below for upcoming meetings and outings.</p>';
+            });
+
+        function parseICS(icsText) {
+            const events = [];
+            const lines = icsText.split(/\r\n|\n|\r/);
+            let currentEvent = null;
+
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i];
+
+                if (line.startsWith('BEGIN:VEVENT')) {
+                    currentEvent = {};
+                } else if (line.startsWith('END:VEVENT') && currentEvent) {
+                    if (currentEvent.startDate && currentEvent.summary) {
+                        events.push(currentEvent);
+                    }
+                    currentEvent = null;
+                } else if (currentEvent) {
+                    if (line.startsWith('SUMMARY:')) {
+                        currentEvent.summary = line.substring(8).replace(/\\,/g, ',').replace(/\\;/g, ';');
+                    } else if (line.startsWith('DESCRIPTION:')) {
+                        currentEvent.description = line.substring(12).replace(/\\n/g, ' ').replace(/\\,/g, ',');
+                    } else if (line.startsWith('LOCATION:')) {
+                        currentEvent.location = line.substring(9).replace(/\\,/g, ',');
+                    } else if (line.startsWith('DTSTART')) {
+                        const dateStr = line.split(':');
+                        currentEvent.startDate = parseICSDate(dateStr[1] || dateStr[0]);
+                    }
+                }
+            }
+            return events;
+        }
+
+        function parseICSDate(dateStr) {
+            if (!dateStr) return new Date();
+            const year = parseInt(dateStr.substring(0, 4));
+            const month = parseInt(dateStr.substring(4, 6)) - 1;
+            const day = parseInt(dateStr.substring(6, 8));
+            
+            if (dateStr.includes('T')) {
+                const hour = parseInt(dateStr.substring(9, 11));
+                const minute = parseInt(dateStr.substring(11, 13));
+                return new Date(Date.UTC(year, month, day, hour, minute));
+            }
+            return new Date(year, month, day);
+        }
+
+        function createEventElement(event) {
+            const d = event.startDate;
+            const dayName = d.toLocaleDateString('en-US', { weekday: 'short' });
+            const monthName = d.toLocaleDateString('en-US', { month: 'short' });
+            const dayNum = d.getDate();
+            const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
+            const div = document.createElement('div');
+            div.className = 'event-entry';
+
+            const isTroop6412 = event.summary.includes('6412');
+            const titleClass = isTroop6412 ? 't6412' : '';
+            const locationText = event.location ? ` | ${event.location}` : '';
+
+            div.innerHTML = `
+                <div class="event-badge">
+                    <div class="badge-day">${dayName}</div>
+                    <div class="badge-month">${monthName}</div>
+                    <div class="badge-number">${dayNum}</div>
+                </div>
+                <div class="event-info">
+                    <h3 class="${titleClass}">${escapeHtml(event.summary)}</h3>
+                    <div class="event-time-loc">${timeStr}${escapeHtml(locationText)}</div>
+                    <p class="event-desc">${escapeHtml(event.description || 'Join us for our upcoming troop gathering!')}</p>
+                </div>
+            `;
+            return div;
+        }
+
+        function escapeHtml(str) {
+            return str ? str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") : '';
+        }
+    });
+    </script>
 </body>
 </html>
