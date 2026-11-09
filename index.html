@@ -158,80 +158,7 @@
       padding: 0 var(--space-md);
     }
 
-    /* --- TOP INTERACTIVE PREVIEW CONTROLLER BAR --- */
-    .preview-controller-bar {
-      background-color: #1a2530;
-      color: #ffffff;
-      padding: var(--space-sm) var(--space-md);
-      font-family: var(--font-label);
-      font-size: var(--label-size);
-      border-bottom: 2px solid var(--logo-blue);
-    }
-    .preview-controller-inner {
-      max-width: 1240px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-md);
-    }
-    .preview-badge-group {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-    .preview-tag {
-      background-color: var(--logo-blue);
-      color: #0b222c;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: var(--rounded);
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      font-size: 0.7rem;
-    }
-    .preview-controls {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-    .preview-control-label {
-      color: #b0c4de;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .preview-btn-group {
-      display: inline-flex;
-      background: #0f171f;
-      padding: 2px;
-      border-radius: var(--rounded);
-      border: 1px solid #334455;
-    }
-    .preview-toggle-btn {
-      background: transparent;
-      color: #cbd5e1;
-      border: 0;
-      padding: 5px 12px;
-      font-family: var(--font-label);
-      font-size: 0.75rem;
-      font-weight: 700;
-      cursor: pointer;
-      border-radius: 2px;
-      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
-    }
-    .preview-toggle-btn.active {
-      background: var(--logo-blue);
-      color: #0d2833;
-    }
-    .preview-toggle-btn:hover:not(.active) {
-      background: #253342;
-      color: #ffffff;
-    }
-
-    /* --- SITE HEADER --- */
+        /* --- SITE HEADER --- */
     .site-header {
       background-color: var(--logo-blue);
       padding: var(--space-md) 0;
@@ -1558,33 +1485,116 @@
         scroll-behavior: auto !important;
       }
     }
-  </style>
+  
+    /* --- PHOTO ROTATOR SECTION STYLES --- */
+    .photo-rotator-section {
+      padding: var(--space-xl) 0;
+      background: var(--surface-container-low);
+      border-bottom: 1px solid var(--border-blue);
+    }
+    .rotator-container {
+      position: relative;
+      max-width: 100%;
+      border-radius: var(--rounded-lg);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      border: 2px solid var(--border-blue);
+      aspect-ratio: 16 / 9;
+      max-height: 520px;
+      background: #111827;
+    }
+    .rotator-slides {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .rotator-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .rotator-slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+    .rotator-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .rotator-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(11, 34, 44, 0.85));
+      color: #ffffff;
+      padding: 24px 28px 18px 28px;
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      z-index: 2;
+    }
+    .rotator-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(11, 34, 44, 0.6);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.3);
+      font-size: 1.4rem;
+      padding: 10px 16px;
+      cursor: pointer;
+      z-index: 10;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+    .rotator-btn:hover {
+      background: var(--logo-red);
+      border-color: var(--logo-red);
+    }
+    .rotator-btn.prev {
+      left: 16px;
+    }
+    .rotator-btn.next {
+      right: 16px;
+    }
+    .rotator-dots {
+      position: absolute;
+      bottom: 18px;
+      right: 24px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+    .rotator-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .rotator-dot.active {
+      background: var(--logo-red);
+      width: 28px;
+      border-radius: 6px;
+    }
+
+    </style>
 </head>
 <body>
 
-  <!-- TOP INTERACTIVE PREVIEW CONTROLLER BAR -->
-  <aside class="preview-controller-bar" aria-label="Website Preview Navigation Bar">
-    <div class="preview-controller-inner">
-      <div class="preview-badge-group">
-        <span class="preview-tag">Interactive Preview</span>
-        <span style="font-weight: 700; color: #ffffff;">Troop 412 &amp; Troop 6412 Digital Hub</span>
-      </div>
-      <div class="preview-controls">
-        <span class="preview-control-label">Perspective:</span>
-        <div class="preview-btn-group" role="group" aria-label="Audience View Switcher">
-          <button type="button" class="preview-toggle-btn active" id="btn-persona-family" onclick="setPerspective('family')">👨‍👩‍👧 Prospective Family</button>
-          <button type="button" class="preview-toggle-btn" id="btn-persona-member" onclick="setPerspective('member')">⛺ Active Scout / Parent</button>
-          <button type="button" class="preview-toggle-btn" id="btn-persona-leader" onclick="setPerspective('leader')">⚜️ Troop Leadership / PLC</button>
-        </div>
-        <span class="preview-control-label" style="margin-left: 8px;">Unit View:</span>
-        <div class="preview-btn-group" role="group" aria-label="Unit Filter">
-          <button type="button" class="preview-toggle-btn active" id="btn-unit-all" onclick="setUnitFilter('all')">Joint (Linked)</button>
-          <button type="button" class="preview-toggle-btn" id="btn-unit-412" onclick="setUnitFilter('412')">T412 (Boys)</button>
-          <button type="button" class="preview-toggle-btn" id="btn-unit-6412" onclick="setUnitFilter('6412')">T6412 (Girls)</button>
-        </div>
-      </div>
-    </div>
-  </aside>
+  
 
   <!-- OFFICIAL SITE HEADER -->
   <header class="site-header">
@@ -1623,7 +1633,7 @@
           <li><a href="#bartle-staff" class="nav-link">Bartle Staff 2027</a></li>
           <li><a href="#recruitment" class="nav-link">Recruiting Hub</a></li>
           <li><a href="#join" class="nav-btn-join">Join Troop</a></li>
-          <li><button type="button" onclick="openMemberModal()" class="nav-link nav-btn-login">Member Portal</button></li>
+          <li><button type="button" href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" target="_blank" class="nav-link nav-btn-login">Member Portal</button></li>
         </ul>
       </nav>
     </div>
@@ -1634,7 +1644,7 @@
     <div class="alert-inner">
       <div class="alert-content">
         <span class="alert-chip">Upcoming Event</span>
-        <span>⛺ <strong>NEW MEMBER NIGHT &amp; OPEN HOUSE:</strong> Monday, Oct 25th at 7:00 PM at Olathe Christian Church. All prospective boys &amp; girls ages 11–17 welcome!</span>
+        <span>⛺ <strong>NEW MEMBER NIGHT &amp; OPEN HOUSE:</strong> Tuesday, Oct 25th at 7:00 PM at Olathe Christian Church. All prospective boys &amp; girls ages 11–17 welcome!</span>
       </div>
       <div>
         <button type="button" class="alert-link" onclick="jumpToSection('recruitment')">Generate Buddy Invitation Pass &rarr;</button>
@@ -1683,7 +1693,7 @@
                 <div class="stat-desc">Youth-Led Program</div>
               </div>
               <div class="stat-card">
-                <div class="stat-val">Mondays</div>
+                <div class="stat-val">Tuesdays</div>
                 <div class="stat-desc">7:00 – 8:30 PM</div>
               </div>
             </div>
@@ -1754,7 +1764,32 @@
     </section>
 
     <!-- LINKED TROOPS EXPLAINER -->
-    <section class="section-alt" id="linked-model">
+    
+    <!-- PHOTO ROTATOR SECTION -->
+    <section class="photo-rotator-section" id="photo-rotator">
+      <div class="page-wrapper">
+        <div class="rotator-container">
+          <div class="rotator-slides">
+            <div class="rotator-slide active">
+              <img src="20260815_083010.jpg" alt="Troop 412 & 6412 Outdoor Camping Adventure" class="rotator-img">
+              <div class="rotator-caption">Troop 412 &amp; Troop 6412 Outdoor Camping Adventures</div>
+            </div>
+            <div class="rotator-slide">
+              <img src="12.jpeg" alt="Scout Leadership and Outdoor Activities" class="rotator-img">
+              <div class="rotator-caption">Scout-Led Leadership &amp; Outdoor Activities</div>
+            </div>
+          </div>
+          <button type="button" class="rotator-btn prev" onclick="moveRotator(-1)" aria-label="Previous Photo">&#10094;</button>
+          <button type="button" class="rotator-btn next" onclick="moveRotator(1)" aria-label="Next Photo">&#10095;</button>
+          <div class="rotator-dots">
+            <span class="rotator-dot active" onclick="setRotatorSlide(0)"></span>
+            <span class="rotator-dot" onclick="setRotatorSlide(1)"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section class="section-alt" id="linked-model">
       <div class="page-wrapper">
         <div class="section-header-block">
           <div class="section-category">
@@ -1782,7 +1817,7 @@
               <ul>
                 <li><strong>Youth Leadership:</strong> Senior Patrol Leader (SPL) and Patrol Leaders run all weekly troop meetings.</li>
                 <li><strong>Patrol Structure:</strong> Scouts plan menus, cook patrol-style meals, and manage duty rosters.</li>
-                <li><strong>Meeting Night:</strong> Mondays, 7:00 PM – 8:30 PM at Olathe Christian Church.</li>
+                <li><strong>Meeting Night:</strong> Tuesdays, 7:00 PM – 8:30 PM at Olathe Christian Church.</li>
                 <li><strong>Advancement:</strong> Active Eagle Scout mentoring pipeline with dedicated adult coaches.</li>
               </ul>
             </div>
@@ -1802,7 +1837,7 @@
               <ul>
                 <li><strong>Youth Leadership:</strong> Dedicated female youth SPL and Patrol Leaders elected by the girls.</li>
                 <li><strong>Patrol Structure:</strong> Independent girl patrols directing campcraft, pioneering, and treks.</li>
-                <li><strong>Meeting Night:</strong> Mondays, 7:00 PM – 8:30 PM at Olathe Christian Church.</li>
+                <li><strong>Meeting Night:</strong> Tuesdays, 7:00 PM – 8:30 PM at Olathe Christian Church.</li>
                 <li><strong>Advancement:</strong> Proven path to Scouting BSA's highest rank of Eagle Scout.</li>
               </ul>
             </div>
@@ -1818,7 +1853,7 @@
           <div class="synergy-grid">
             <div class="synergy-point">
               <h4>Unified Drop-off &amp; Pick-up</h4>
-              <p>Both troops gather simultaneously every Monday at 7:00 PM at Olathe Christian Church. Parents make one trip.</p>
+              <p>Both troops gather simultaneously every Tuesday at 7:00 PM at Olathe Christian Church. Parents make one trip.</p>
             </div>
             <div class="synergy-point">
               <h4>Shared Equipment Locker</h4>
@@ -1852,8 +1887,8 @@
         <div class="calendar-controls-box">
           <div class="calendar-filter-row">
             <div class="filter-pills" role="group" aria-label="Quarter / Season Filter">
-              <button type="button" class="filter-pill active" onclick="filterBySeason('all')">All 52 Weeks</button>
-              <button type="button" class="filter-pill" onclick="filterBySeason('q1')">Q1: Winter (Jan–Mar)</button>
+              <button type="button" class="filter-pill" onclick="filterBySeason('all')">All 52 Weeks</button>
+              <button type="button" class="filter-pill active" onclick="filterBySeason('q1')">Q1: Winter (Jan–Mar)</button>
               <button type="button" class="filter-pill" onclick="filterBySeason('q2')">Q2: Spring (Apr–Jun)</button>
               <button type="button" class="filter-pill" onclick="filterBySeason('q3')">Q3: Summer (Jul–Sep)</button>
               <button type="button" class="filter-pill" onclick="filterBySeason('q4')">Q4: Fall (Oct–Dec)</button>
@@ -1882,6 +1917,8 @@
     </section>
 
     <!-- BARTLE CAMP STAFF 2027 COMMITMENT PORTAL -->
+    
+    <!-- BARTLE BOBBLEHEAD SHOWCASE -->
     <section class="section-alt" id="bartle-staff">
       <div class="page-wrapper">
         <div class="section-header-block" style="border-top-color: var(--logo-red);">
@@ -1889,64 +1926,15 @@
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             H. Roe Bartle Scout Reservation
           </div>
-          <h3 class="section-title">Summer 2027 Camp Staff Commitment Portal</h3>
+          <h3 class="section-title">Smiley Bob Burnos Bobblehead Showcase</h3>
           <p class="section-subhead">
-            Serving on camp staff is the premier leadership experience in Scouting. Challenge yourself, build lifelong bonds, and make your mark at Bartle. Sign the "One Summer" pledge to earn your drawing entry!
+            Click on Smiley Bob to watch him bobble! Celebrating outdoor leadership and Scouting traditions at H. Roe Bartle Scout Reservation.
           </p>
         </div>
 
-        <div class="bartle-portal-card">
-          <div class="bartle-split">
-            
-            <div>
-              <h4 style="font-size: 1.4rem; color: var(--primary); margin-bottom: var(--space-xs);">The Challenge: The "One Summer" Pledge</h4>
-              <p style="color: var(--on-surface-variant); font-size: 0.95rem;">
-                Camp staff transforms youth into resilient leaders. We ask every eligible scout in Troops 412 &amp; 6412 to give staff one honest, fair trial.
-              </p>
-
-              <div class="pledge-callout">
-                <p class="pledge-quote">
-                  "I pledge to give Bartle Camp Staff my absolute best effort for one full summer. I commit to completing the application process and giving camp staff a fair, honest shot. If I serve through the Summer of 2027 and decide it isn't for me, I am under no obligation to return the following year—but I promise to give it one genuine try."
-                </p>
-              </div>
-
-              <div class="bartle-perks-box">
-                <div class="perk-card">
-                  <h4>
-                    <span>🍕</span>
-                    <span>All-Staff Pizza Party</span>
-                  </h4>
-                  <p style="font-size: 0.85rem; color: var(--on-surface-variant); margin: 0;">
-                    All Troop 412/6412 Scouts who successfully join the 2027 Bartle Staff will be thrown an exclusive pizza party during the 2027 camping season!
-                  </p>
-                </div>
-                <div class="perk-card">
-                  <h4>
-                    <span>⚾</span>
-                    <span>Grand Prize Drawing</span>
-                  </h4>
-                  <p style="font-size: 0.85rem; color: var(--on-surface-variant); margin: 0;">
-                    Every Scout who signs this pledge and completes their interview is entered into a drawing to win the rare, coveted <strong>Smiley Bob Burnos Bobblehead</strong>!
-                  </p>
-                </div>
-              </div>
-
-              <!-- Critical Deadlines -->
-              <div style="margin-top: var(--space-lg); background: #ffffff; border: 1px solid var(--border-blue); padding: var(--space-md); border-radius: var(--rounded);">
-                <h5 style="font-family: var(--font-headline); font-size: 0.9rem; text-transform: uppercase; color: var(--primary); margin-bottom: var(--space-xs);">Critical Staffing Milestones</h5>
-                <ul style="font-size: 0.88rem; color: var(--on-surface-variant); margin: 0; padding-left: 20px;">
-                  <li><strong>October / November 2026:</strong> Official Bartle Staff application window opens online.</li>
-                  <li><strong>December 2026 (Christmas Break):</strong> Staff interviews conducted.</li>
-                  <li><strong>June 2027:</strong> Your ultimate summer of outdoor leadership begins at Bartle!</li>
-                </ul>
-              </div>
-            </div>
-
-            <!-- Right Column: Bobblehead Showcase & Interactive Form -->
-            <div>
-              <div class="bobblehead-feature-box">
-                <!-- Custom SVG Bobblehead Graphic -->
-                <svg class="bobblehead-art" viewBox="0 0 140 180" aria-label="Smiley Bob Burnos Bobblehead Illustration" role="img" onclick="triggerBobble()">
+        <div style="max-width: 450px; margin: 0 auto;">
+          <div class="bobblehead-feature-box" style="padding: var(--space-xl) var(--space-lg);">
+            <svg class="bobblehead-art" viewBox="0 0 140 180" aria-label="Smiley Bob Burnos Bobblehead Illustration" role="img" onclick="triggerBobble()">
                   <!-- Stand Base -->
                   <ellipse cx="70" cy="165" rx="55" ry="12" fill="#142c4b"/>
                   <ellipse cx="70" cy="162" rx="52" ry="10" fill="#204473"/>
@@ -1992,74 +1980,12 @@
                     <circle cx="70" cy="22" r="4" fill="#ffdd00"/>
                   </g>
                 </svg>
-
-                <div class="bobblehead-caption">Tap to Nod the Bobblehead!</div>
-                <div style="font-size: 0.78rem; color: var(--on-surface-variant); margin-top: 4px;">Official 2027 Staff Drawing Trophy</div>
-              </div>
-
-              <!-- Interactive Pledge Commitment Form -->
-              <form class="pledge-form" id="bartle-pledge-form" onsubmit="handlePledgeSubmit(event)">
-                <div style="border-bottom: 1px solid var(--border-blue); padding-bottom: 6px;">
-                  <strong style="color: var(--primary); font-size: 0.95rem; text-transform: uppercase;">Sign the 2027 Staff Pledge</strong>
-                  <div style="font-size: 0.78rem; color: var(--on-surface-variant);">Instant entry into Bobblehead drawing &amp; Pizza Party roster.</div>
-                </div>
-
-                <div class="form-group">
-                  <label for="pledge-scout-name" class="form-label">Scout Full Name *</label>
-                  <input type="text" id="pledge-scout-name" class="form-input" required placeholder="e.g. Alex Morgan">
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm);">
-                  <div class="form-group">
-                    <label for="pledge-troop-select" class="form-label">Troop *</label>
-                    <select id="pledge-troop-select" class="form-select" required>
-                      <option value="Troop 412">Troop 412 (Boys)</option>
-                      <option value="Troop 6412">Troop 6412 (Girls)</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label for="pledge-staff-role" class="form-label">Interest Area *</label>
-                    <select id="pledge-staff-role" class="form-select">
-                      <option value="Aquatics / Waterfront">Aquatics / Waterfront</option>
-                      <option value="Scoutcraft &amp; Outdoor Skills">Scoutcraft &amp; Pioneering</option>
-                      <option value="Shooting Sports">Shooting Sports</option>
-                      <option value="Ecology / Nature">Nature / Conservation</option>
-                      <option value="Mic-O-Say / Traditions">Camp Operations / MOS</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="pledge-parent-name" class="form-label">Parent / Guardian Name *</label>
-                  <input type="text" id="pledge-parent-name" class="form-input" required placeholder="e.g. David Morgan">
-                </div>
-
-                <label class="form-checkbox-label">
-                  <input type="checkbox" id="pledge-agree" required style="margin-top: 3px;">
-                  <span>I agree to the "One Summer" pledge and commit to giving Bartle Staff 100% effort through the interview process.</span>
-                </label>
-
-                <button type="submit" class="btn-action-primary" style="justify-content: center; width: 100%; border: 0;">
-                  <span>Submit Pledge &amp; Get Raffle Ticket</span>
-                </button>
-              </form>
-
-              <!-- Resulting Official Ticket -->
-              <div id="pledge-ticket-display" class="pledge-result-ticket">
-                <div style="font-size: 0.75rem; font-weight: 800; color: #b45309; text-transform: uppercase; letter-spacing: 0.05em;">★ Official Drawing Entry Confirmed ★</div>
-                <div style="font-family: var(--font-headline); font-size: 1.2rem; font-weight: 900; color: #162e51; margin: 4px 0;" id="ticket-scout-display">Alex Morgan — Troop 412</div>
-                <div style="font-family: var(--font-mono); font-size: 0.95rem; font-weight: 700; color: var(--logo-red);" id="ticket-number-display">TICKET #412-BOBBLE-2027-8924</div>
-                <div style="font-size: 0.8rem; color: #666666; margin-top: 6px;">
-                  Entered into the <strong>Smiley Bob Burnos Bobblehead</strong> Grand Prize Drawing and the <strong>All-Staff Pizza Party</strong> during the 2027 season!
-                </div>
-              </div>
-
-            </div>
-
+            <div class="bobblehead-caption" style="margin-top: var(--space-sm);">Click Smiley Bob to Bobble!</div>
           </div>
         </div>
       </div>
     </section>
+
 
     <!-- RECRUITMENT TOOLKIT & BUDDY PASS GENERATOR -->
     <section id="recruitment">
@@ -2117,7 +2043,7 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); margin-bottom: var(--space-md);">
               <div class="form-group">
                 <label for="buddy-event-date" class="form-label">Date &amp; Time</label>
-                <input type="text" id="buddy-event-date" class="form-input" value="Monday, Oct 25 @ 7:00 PM" oninput="updateBuddyCard()">
+                <input type="text" id="buddy-event-date" class="form-input" value="Tuesday, Oct 25 @ 7:00 PM" oninput="updateBuddyCard()">
               </div>
               <div class="form-group">
                 <label for="buddy-event-location" class="form-label">Meeting Location</label>
@@ -2164,7 +2090,7 @@
               <div class="ticket-meta-grid">
                 <div>
                   <strong>WHEN:</strong><br>
-                  <span id="card-date-time">Monday, Oct 25 @ 7:00 PM</span>
+                  <span id="card-date-time">Tuesday, Oct 25 @ 7:00 PM</span>
                 </div>
                 <div>
                   <strong>WHERE:</strong><br>
@@ -2279,7 +2205,7 @@
                 <span class="faq-toggle-icon">+</span>
               </button>
               <div class="faq-answer">
-                Troop meetings are held every Monday from 7:00 PM – 8:30 PM (1.5 hours), alongside one weekend campout per month. Scouting is intentionally flexible: we have multi-sport athletes, band members, and scholars who excel in our troops. Scouts advance at their own personal pace.
+                Troop meetings are held every Tuesday from 7:00 PM – 8:30 PM (1.5 hours), alongside one weekend campout per month. Scouting is intentionally flexible: we have multi-sport athletes, band members, and scholars who excel in our troops. Scouts advance at their own personal pace.
               </div>
             </div>
 
@@ -2301,8 +2227,8 @@
             <div class="join-step">
               <div class="step-num-badge">1</div>
               <div class="step-text">
-                <h4>Visit a Monday Meeting</h4>
-                <p>Join us any Monday at 7:00 PM at Olathe Christian Church. Meet our Scoutmasters, talk with youth patrol leaders, and see the program in action.</p>
+                <h4>Visit a Tuesday Meeting</h4>
+                <p>Join us any Tuesday at 7:00 PM at Olathe Christian Church. Meet our Scoutmasters, talk with youth patrol leaders, and see the program in action.</p>
               </div>
             </div>
 
@@ -2333,7 +2259,7 @@
             <div style="background: #ffffff; padding: var(--space-md); border-radius: var(--rounded); border: 1px solid var(--border-blue); text-align: center; margin-top: var(--space-md);">
               <span style="font-size: 0.82rem; font-weight: 700; color: var(--primary); display: block;">Meeting Location &amp; Time</span>
               <strong style="color: var(--logo-red); font-size: 1.05rem;">Olathe Christian Church</strong><br>
-              <span style="font-size: 0.88rem; color: var(--on-surface-variant);">Mondays &bull; 7:00 PM – 8:30 PM</span>
+              <span style="font-size: 0.88rem; color: var(--on-surface-variant);">Tuesdays &bull; 7:00 PM – 8:30 PM</span>
             </div>
 
           </div>
@@ -2514,6 +2440,8 @@
     </section>
 
     <!-- MEMBER PORTAL SIMULATION SECTION -->
+    
+    <!-- MEMBER PORTAL SECTION -->
     <section class="page-wrapper" id="member-portal">
       <div class="member-portal-section">
         <span style="font-family: var(--font-label); font-weight: 800; font-size: 0.78rem; text-transform: uppercase; color: var(--logo-red); letter-spacing: 0.08em;">Current Family Roster &amp; Database</span>
@@ -2522,15 +2450,13 @@
           Access the full Troop Webhost system for real-time rank advancement signoffs, merit badge counselor assignments, scout account balances, and outing RSVPs.
         </p>
         <div class="portal-action-btns">
-          <button type="button" class="btn-action-primary" onclick="openMemberModal()">
-            <span>Simulate Member Portal Access</span>
-          </button>
-          <button type="button" class="btn-action-secondary" onclick="alert('Troop Webhost URL reference:\nwww.troopwebhost.org/Troop412Olathe\n\nLogin credentials provided by the Troop Scribe upon official enrollment.')">
-            <span>View Portal Webhost Address</span>
-          </button>
+          <a href="https://www.troopwebhost.org/Troop412Olathe/Index.htm" target="_blank" class="btn-action-primary" style="background-color: var(--logo-red); color: #ffffff; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; border: none; padding: 12px 28px; font-weight: 800;">
+            <span>Login to Troop Webhost Portal</span>
+          </a>
         </div>
       </div>
     </section>
+
 
   </main>
 
@@ -2595,7 +2521,7 @@
       </div>
 
       <div style="background: #e6f6f9; border-left: 4px solid var(--logo-blue); padding: var(--space-sm) var(--space-md); font-size: 0.82rem; margin-bottom: var(--space-md);">
-        Need your member login credentials? Contact the Troop Scribe or Committee Membership Chair at any Monday gathering.
+        Need your member login credentials? Contact the Troop Scribe or Committee Membership Chair at any Tuesday gathering.
       </div>
 
       <button type="button" class="btn-action-primary" onclick="closeMemberModal()" style="width: 100%; justify-content: center;">
@@ -2615,7 +2541,7 @@
           </p>
           <p style="margin-top: var(--space-sm); font-size: 0.82rem; color: #a0aec0;">
             Meeting Location: Olathe Christian Church<br>
-            Mondays: 7:00 PM – 8:30 PM
+            Tuesdays: 7:00 PM – 8:30 PM
           </p>
         </div>
 
@@ -2719,7 +2645,7 @@
     let appState = {
       persona: 'family',
       unit: 'all',
-      seasonFilter: 'all',
+      seasonFilter: 'q1',
       searchQuery: '',
       signedPledges: [],
       budget: {
@@ -3051,7 +2977,7 @@
       const sName = document.getElementById('buddy-scout-sender')?.value || "Jordan Riley";
       const troop = document.getElementById('buddy-troop-target')?.value || "Troop 412 (Boys)";
       const act = document.getElementById('buddy-activity-select')?.value || "Dutch Oven Gourmet Pizza Night & Campfire";
-      const date = document.getElementById('buddy-event-date')?.value || "Monday, Oct 25 @ 7:00 PM";
+      const date = document.getElementById('buddy-event-date')?.value || "Tuesday, Oct 25 @ 7:00 PM";
       const loc = document.getElementById('buddy-event-location')?.value || "Olathe Christian Church";
 
       const cFriend = document.getElementById('card-friend-name');
@@ -3074,7 +3000,7 @@
       const sName = document.getElementById('buddy-scout-sender')?.value || "Your Friend";
       const troop = document.getElementById('buddy-troop-target')?.value || "Troop 412";
       const act = document.getElementById('buddy-activity-select')?.value || "Scout Night";
-      const date = document.getElementById('buddy-event-date')?.value || "Monday @ 7:00 PM";
+      const date = document.getElementById('buddy-event-date')?.value || "Tuesday @ 7:00 PM";
       const loc = document.getElementById('buddy-event-location')?.value || "Olathe Christian Church";
 
       const message = `Hey ${fName}! I'm having a blast in ${troop} in Olathe, and I'd love for you to come check it out with me! We are hosting a "${act}" on ${date} at ${loc}. I'll save you a slice of pizza—let me know if you can make it! — ${sName}`;
@@ -3184,7 +3110,53 @@
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
     }
-  </script>
+  
+    // --- PHOTO ROTATOR LOGIC ---
+    let currentSlideIdx = 0;
+    let photoTimer = null;
+
+    function showRotatorSlide(idx) {
+      const slides = document.querySelectorAll('.rotator-slide');
+      const dots = document.querySelectorAll('.rotator-dot');
+      if (!slides.length) return;
+
+      if (idx >= slides.length) currentSlideIdx = 0;
+      else if (idx < 0) currentSlideIdx = slides.length - 1;
+      else currentSlideIdx = idx;
+
+      slides.forEach((slide, i) => {
+        if (i === currentSlideIdx) slide.classList.add('active');
+        else slide.classList.remove('active');
+      });
+
+      dots.forEach((dot, i) => {
+        if (i === currentSlideIdx) dot.classList.add('active');
+        else dot.classList.remove('active');
+      });
+    }
+
+    function moveRotator(dir) {
+      showRotatorSlide(currentSlideIdx + dir);
+      resetRotatorTimer();
+    }
+
+    function setRotatorSlide(idx) {
+      showRotatorSlide(idx);
+      resetRotatorTimer();
+    }
+
+    function resetRotatorTimer() {
+      if (photoTimer) clearInterval(photoTimer);
+      photoTimer = setInterval(() => {
+        moveRotator(1);
+      }, 5000);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      resetRotatorTimer();
+    });
+
+</script>
 
 </body>
 </html>
